@@ -8,7 +8,7 @@ import { OrdersComponent } from './orders/orders-component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart-component';
 import { CreateCouponComponent } from './coupon/create-coupon-component/create-coupon-component';
 import { CreateProductComponent } from './product/create-product/create-product-component';
-import { ProductEditComponent } from './product/product-edit/product-edit-component';
+import { ProductEditComponent } from './product/edit-product/edit-product-component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // default route
