@@ -9,6 +9,7 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart-component';
 import { CreateCouponComponent } from './coupon/create-coupon-component/create-coupon-component';
 import { CreateProductComponent } from './product/create-product/create-product-component';
 import { ProductEditComponent } from './product/edit-product/edit-product-component';
+import { ProductDetailsComponent } from './product/product-details/product-details-component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // default route
@@ -18,6 +19,7 @@ export const routes: Routes = [
   { path: 'coupon', component: CouponComponent },
   { path: 'product/create', component: CreateProductComponent },
   { path: 'product/edit', component: ProductEditComponent },
+  { path: 'product/details', component: ProductDetailsComponent },
   { path: 'product', component: ProductComponent },
   { path: 'orders', component: OrdersComponent },
   { path: 'cart', component: ShoppingCartComponent },
