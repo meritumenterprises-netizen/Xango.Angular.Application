@@ -1,5 +1,6 @@
 <form method="post">
     <input asp-for="ProductId" hidden />
+    @if (product != null) {
     <div class=" pt-4">
         <div class="card container" >
             <div class="card-header bg-secondary text-black-50 row" style="border-radius: 2px;">
@@ -44,9 +45,10 @@
                     <a href="/" asp-action="Index" class="btn btn-success btn-square form-control btn-lg" style="height:50px;">Back to List</a>
                 </div>
                 <div class="col-12 col-md-6 ">
-                    <button type="submit" class="btn btn-primary form-control btn-lg" style="height:50px;">Add to Cart</button>
+                    <button type="submit" class="btn btn-primary form-control btn-lg" style="height:50px;" [class.disabled]="product.stockInventory == 0">Add to Cart</button>
                 </div>
             </div>
         </div>
     </div>
+    }
 </form>

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
-import { ProductService, ResponseDto } from '../../services/ProductService';
+import { ProductService } from '../../services/ProductService';
+import { ResponseDto } from '../../services/ResponseDto';
 import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   standalone : true,
@@ -19,7 +21,7 @@ export class ProductDetailsComponent {
   product: any;
 
 
-  constructor(private route: ActivatedRoute, public productService: ProductService) {
+  constructor(private route: ActivatedRoute, public productService: ProductService, toastr: ToastrService) {
     this.id = parseInt(this.route.snapshot.paramMap.get('id')!);
     this.response = new ResponseDto();
     this.product = null;
@@ -28,10 +30,16 @@ export class ProductDetailsComponent {
       next: responseDto => {
         this.response = responseDto;
       },
-      error: err => console.error('Error', err),
+      error: err => {
+        console.error('Error', err);
+        this.product = null;
+      },
       complete: () => {
         console.log('Done');
         this.product  = this.response.result;
+        if (this.product == null) {
+          toastr.error(`Product with id ${this.id} has not been found`);
+        }
       }});
   }
 

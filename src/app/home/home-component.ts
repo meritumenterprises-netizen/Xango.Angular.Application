@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { ProductService, Product, ResponseDto } from '../services/ProductService';
+import { ProductService, Product } from '../services/ProductService';
 import { Observable } from 'rxjs';
 import { CurrencyPipe } from '@angular/common';
+import { ResponseDto } from '../services/ResponseDto';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   standalone: true,
@@ -16,7 +18,7 @@ export class HomeComponent {
   response : ResponseDto;
   products: any;
 
-  constructor(public productService: ProductService) {
+  constructor(public productService: ProductService, public toastr : ToastrService) {
     this.response = new ResponseDto();
     this.products = [];
     this.products$ = this.productService.getProducts();
@@ -24,7 +26,10 @@ export class HomeComponent {
       next: responseDto => {
         this.response = responseDto;
       },
-      error: err => console.error('Error', err),
+      error: err => {
+        console.error('Error', err);
+        toastr.error(err, "Error");
+      },
       complete: () => {
         console.log('Done');
         this.products  = this.response.result;
