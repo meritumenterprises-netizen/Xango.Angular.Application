@@ -36,11 +36,21 @@ export class ProductService {
 
   constructor(public http: HttpClient) {}
 
-  getProducts() {
+  public getProducts() {
     return this.http.get<ResponseDto>(`${this.baseUrl}/api/product`).pipe(
       tap(() => console.log('Fetched products from microservice')),
       catchError(err => {
         console.error('Error loading products', err);
+        return of<ResponseDto>(); // fallback so the app doesn’t crash
+      })
+    );
+  }
+
+  public getProduct (productId : number) {
+    return this.http.get<ResponseDto>(`${this.baseUrl}/api/product/${productId}`).pipe(
+      tap(() => console.log(`Fetched product with product id ${productId} from microservice`)),
+      catchError(err => {
+        console.error(`Error loading product with product id ${productId}`, err);
         return of<ResponseDto>(); // fallback so the app doesn’t crash
       })
     );

@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { ProductService, Product, ResponseDto } from '../services/ProductService';
 import { Observable } from 'rxjs';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'app-home-component',
-  imports: [],
+  imports: [CurrencyPipe],
   templateUrl: './home-component.html',
   styleUrl: './home-component.css',
   providers: [ProductService]
@@ -27,7 +29,6 @@ export class HomeComponent {
         console.log('Done');
         this.products  = this.response.result;
       }});
-    //this.products$.pipe((products) => products.forEach((product) => { console.log(product)})
   }
 
 }

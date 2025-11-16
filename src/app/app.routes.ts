@@ -19,7 +19,7 @@ export const routes: Routes = [
   { path: 'coupon', component: CouponComponent },
   { path: 'product/create', component: CreateProductComponent },
   { path: 'product/edit', component: ProductEditComponent },
-  { path: 'product/details', component: ProductDetailsComponent },
+  { path: 'product/details/:id', component: ProductDetailsComponent },
   { path: 'product', component: ProductComponent },
   { path: 'orders', component: OrdersComponent },
   { path: 'cart', component: ShoppingCartComponent },
