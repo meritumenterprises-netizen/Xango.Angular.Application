@@ -1,13 +1,24 @@
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login-component';
-import { RegisterComponent } from './register/register-component';
-
-
+import { LoginComponent } from './auth/login/login-component';
+import { RegisterComponent } from './auth/register/register-component';
+import { HomeComponent } from './home/home-component';
+import { CouponComponent } from './coupon/index/coupon-component';
+import { ProductComponent } from './product/index/product-component';
+import { OrdersComponent } from './orders/orders-component';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart-component';
+import { CreateCouponComponent } from './coupon/create-coupon-component/create-coupon-component';
+import { CreateProductComponent } from './product/create-product/create-product-component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/', pathMatch: 'full' }, // default route
+  { path: '', component: HomeComponent }, // default route
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'coupon/create', component: CreateCouponComponent },
+  { path: 'coupon', component: CouponComponent },
+  { path: 'product/create', component: CreateProductComponent },
+  { path: 'product', component: ProductComponent },
+  { path: 'orders', component: OrdersComponent },
+  { path: 'cart', component: ShoppingCartComponent },
   { path: '**', redirectTo: '/' } // wildcard route
 ];
 
