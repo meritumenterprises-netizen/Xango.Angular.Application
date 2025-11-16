@@ -8,6 +8,7 @@ import { OrdersComponent } from './orders/orders-component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart-component';
 import { CreateCouponComponent } from './coupon/create-coupon-component/create-coupon-component';
 import { CreateProductComponent } from './product/create-product/create-product-component';
+import { ProductEditComponent } from './product/product-edit/product-edit-component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // default route
@@ -16,6 +17,7 @@ export const routes: Routes = [
   { path: 'coupon/create', component: CreateCouponComponent },
   { path: 'coupon', component: CouponComponent },
   { path: 'product/create', component: CreateProductComponent },
+  { path: 'product/edit', component: ProductEditComponent },
   { path: 'product', component: ProductComponent },
   { path: 'orders', component: OrdersComponent },
   { path: 'cart', component: ShoppingCartComponent },
