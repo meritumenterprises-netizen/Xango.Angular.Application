@@ -13,7 +13,8 @@ export interface UserRecord {
     id : string;
     email: string;
     name : string;
-    phoneNumber : string
+    phoneNumber : string;
+    role: string;
 }
 
 export interface UserToken {
@@ -67,9 +68,9 @@ export class AuthService {
   }
   
 
-//   logout(): void {
-//     this.clearToken();
-//   }
+  logout(): void {
+    this.clearToken();
+  }
 
   // === token helpers ===
   setToken(token: string): void {
@@ -88,15 +89,20 @@ export class AuthService {
     return null;
   }
 
+  public isUserLoggedIn() : boolean {
+    return this.getUser() !== null;
+  }
+
   public getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
 
   clearToken(): void {
     localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.userKey);
   }
 
-  isLoggedIn(): boolean {
-    return !!this.getToken();
+  public isAdmin() : boolean {
+    return this.getUser() !== null && this.getUser()?.role == "ADMIN";
   }
 }

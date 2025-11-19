@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router,  RouterLinkActive,RouterModule, RouterOutlet } from '@angular/router';
-
+import { UserRecord, AuthService } from '../../services/AuthenticationService';
 
 @Component({
   selector: 'app-header',
@@ -14,5 +14,19 @@ import { Router,  RouterLinkActive,RouterModule, RouterOutlet } from '@angular/r
 
 })
 export class HeaderComponent {
+  constructor (private authService: AuthService) {
 
+  }
+
+  public getUserName() : string | any{
+    return this.authService.getUser()?.email;
+  }
+
+  public isUserLoggedIn() : boolean {
+    return this.authService.isUserLoggedIn();
+  }
+
+  public isAdmin() : boolean {
+    return this.authService.isAdmin();
+  }
 }

@@ -46,12 +46,12 @@ export class LoginComponent {
     this.user$.subscribe({
       error: (err: any) => {
         console.error('Error', err);
-        this.toastr.error(`Could not log in user ${this.loginForm.value.username} with given password`, "Error");
+        this.toastr.error(`${err}`, "Error");
       },
       complete: () => {
         console.log('Done');
         if (this.authService.getUser() === null) {
-          this.toastr.error(`User name ${this.loginForm.value.username} has not been found`);
+          this.toastr.error(`Could not log in user ${this.loginForm.value.username} with given password, or user does not exist`);
           return;
         }
         this.router.navigate(['/']);
