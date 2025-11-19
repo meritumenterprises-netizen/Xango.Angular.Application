@@ -44,7 +44,6 @@ export class ProductService {
       tap(() => console.log(`Fetched product with product id ${productId} from microservice`)),
       catchError(err => {
       this.toastr.error(`Error loading product with product id ${productId}`, "Error");
-      //console.error(`Error loading product with product id ${productId}`, err);
         return of<ResponseDto>(); // fallback so the app doesn’t crash
       })
     );

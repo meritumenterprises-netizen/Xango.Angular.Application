@@ -37,7 +37,7 @@
                 </ul>
                 <ul class="navbar-nav">
                     @if (isUserLoggedIn()) {
-                    <li class="nav-item"><a class="nav-link">Hello {{getUserName()}}</a></li>
+                    <li class="nav-item"><a class="nav-link">Hello @if (isAdmin()) { <b>{{getUserName()}} </b>} @else {{{getUserName()}}}</a></li>
                     <li class="nav-item"><a class="nav-link" routerLink="/logout">Logout</a></li>
                     }
                     @else {
