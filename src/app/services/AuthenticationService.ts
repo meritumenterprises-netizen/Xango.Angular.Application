@@ -1,14 +1,30 @@
 // src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ServiceSettings } from './ServiceSettings';
 import { ResponseDto } from './ResponseDto';
+import { catchError, tap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
-interface LoginResponse {
-  token: string; // adjust to your API response shape
+
+export interface UserRecord {
+    id : string;
+    email: string;
+    name : string;
+    phoneNumber : string
 }
+
+export interface UserToken {
+    token: string;
+}
+
+export interface UserResponse {
+    user : UserRecord;
+    userToken: UserToken;
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,36 +32,71 @@ interface LoginResponse {
 export class AuthService {
   private apiUrl = ServiceSettings.AUTH_API; 
   private tokenKey = 'auth_token';
+  private userKey = 'user_value';
+
+  private userResponse : UserResponse | any = null;
 
   constructor(private http: HttpClient) {}
 
   login(userName: string, password: string): Observable<ResponseDto> {
-    return this.http.post<ResponseDto>(`${this.apiUrl}/api/auth/login`, { userName, password })
+    const response = this.http.post<ResponseDto>(`${this.apiUrl}/api/auth/login`, { userName, password })
+      .pipe(
+        tap(response => {
+            this.userResponse = response.result;
+            this.setToken(this.userResponse.token);
+            this.setUser(this.userResponse.user);
+            return response;
+        }),
+        catchError((error: HttpErrorResponse) => {
+             console.error('Login error:', error);
+
+        // you can rethrow the error so subscribers receive it
+            return throwError(() => error);
+        })
+      );
+      return response
+  }
+
+  register(email: string, user: string, phone: string, password: string, role: string) : Observable<ResponseDto> {
+    return this.http.post<ResponseDto>(`${this.apiUrl}/api/auth/register`, { email, password })
       .pipe(
         tap(response => {
           //this.setToken(response.result.token);
         })
       );
   }
+  
 
 //   logout(): void {
 //     this.clearToken();
 //   }
 
-//   // === token helpers ===
-//   setToken(token: string): void {
-//     localStorage.setItem(this.tokenKey, token); // or sessionStorage
-//   }
+  // === token helpers ===
+  setToken(token: string): void {
+    localStorage.setItem(this.tokenKey, token); // or sessionStorage
+  }
 
-//   getToken(): string | null {
-//     return localStorage.getItem(this.tokenKey);
-//   }
+  setUser(user: UserRecord) : void {
+    localStorage.setItem(this.userKey, JSON.stringify(this.userResponse.user))
+  }
 
-//   clearToken(): void {
-//     localStorage.removeItem(this.tokenKey);
-//   }
+  public getUser() : UserRecord | null {
+    let userRecordString : string | any = localStorage.getItem(this.userKey);
+    if (userRecordString !== null) {
+      return JSON.parse(userRecordString);
+    }
+    return null;
+  }
 
-//   isLoggedIn(): boolean {
-//     return !!this.getToken();
-//   }
+  public getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
+  }
+
+  clearToken(): void {
+    localStorage.removeItem(this.tokenKey);
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
 }

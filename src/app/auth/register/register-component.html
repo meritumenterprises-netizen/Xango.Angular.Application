@@ -1,27 +1,32 @@
-<form method="post" #form="ngForm" (ngSubmit)="onSubmit(form.value)">
+<form method="post" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <div class="container border p-4">
         <div class="row text-center p-3">
             <h1>Register</h1>
         </div>
         <div class="row">
             <div class="col-12 col-md-6 offset-md-3 pb-2">
-                <input class="form-control" placeholder="Email..." name="email" ngModel/>
+                <input class="form-control" placeholder="Email..." formControlName="email"/>
+                <div *ngIf="email?.invalid && (email?.touched || email?.dirty)">
+                    <small *ngIf="email?.errors?.['required']" class="text-danger">Email is required.</small>
+                    <small *ngIf="email?.errors?.['pattern']" class="text-danger">
+                        Email format is invalid.
+                    </small>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 offset-md-3 pb-2">
+                <input class="form-control" placeholder="Name..." formControlName="name"/>
                 <span class="text-danger"></span>
             </div>
             <div class="col-12 col-md-6 offset-md-3 pb-2">
-                <input class="form-control" placeholder="Name..." name="name" ngModel/>
+                <input class="form-control" placeholder="Phone Number..." formControlName="phone"/>
                 <span class="text-danger"></span>
             </div>
             <div class="col-12 col-md-6 offset-md-3 pb-2">
-                <input class="form-control" placeholder="Phone Number..." name="phone" ngModel/>
+                <input class="form-control" type="password" placeholder="Password..." formControlName="password"/>
                 <span class="text-danger"></span>
             </div>
             <div class="col-12 col-md-6 offset-md-3 pb-2">
-                <input class="form-control" type="password" placeholder="Password..." name="password" ngModel/>
-                <span class="text-danger"></span>
-            </div>
-            <div class="col-12 col-md-6 offset-md-3 pb-2">
-                <select class="form-select" name="role" ngModel>
+                <select class="form-select" formControlName="role">
                     <option value="" disabled selected>--Select Role--</option>
                     <option value="CUSTOMER">CUSTOMER</option>
                     <option value="ADMIN">ADMIN</option>
