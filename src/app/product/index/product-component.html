@@ -34,75 +34,30 @@
 				</tr>
 			</thead>
 			<tbody>
+				@for (product of products; track product.productId) {
 				<tr>
 					<td>
-						Product 1
+						{{product.name}}
 					</td>
 					<td>
-						Category 1
+						{{product.category}}
 					</td>
 					<td>
-						$14.99
+						{{product.price | currency : 'USD'}}
 					</td>
 					<td>
-						100
+						{{product.stockInventory}}
 					</td>
 					<td>
-						<a href="/product/edit" class="btn btn-success" asp-action="ProductEdit"
-							asp-route-productId="@item.ProductId">
+						<a href="/product/edit" class="btn btn-success">
 							<i class="bi bi-pencil-square"></i>
 						</a>&nbsp;
-						<a class="btn btn-danger" asp-action="DeleteProduct" asp-route-productId="@item.ProductId">
+						<a href="/product/delete/{{product.productId}}" class="btn btn-danger" >
 							<i class="bi bi-trash"></i>
 						</a>
 					</td>
 				</tr>
-				<tr>
-					<td>
-						Product 2
-					</td>
-					<td>
-						Category 2
-					</td>
-					<td>
-						$13.99
-					</td>
-					<td>
-						99
-					</td>
-					<td>
-						<a href="/product/edit" class="btn btn-success" asp-action="ProductEdit"
-							asp-route-productId="@item.ProductId">
-							<i class="bi bi-pencil-square"></i>
-						</a>&nbsp;
-						<a class="btn btn-danger" asp-action="DeleteProduct" asp-route-productId="@item.ProductId">
-							<i class="bi bi-trash"></i>
-						</a>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						Product 3
-					</td>
-					<td>
-						Category 3
-					</td>
-					<td>
-						$11.99
-					</td>
-					<td>
-						98
-					</td>
-					<td>
-						<a href="/product/edit" class="btn btn-success" asp-action="ProductEdit"
-							asp-route-productId="@item.ProductId">
-							<i class="bi bi-pencil-square"></i>
-						</a>&nbsp;
-						<a class="btn btn-danger" asp-action="DeleteProduct" asp-route-productId="@item.ProductId">
-							<i class="bi bi-trash"></i>
-						</a>
-					</td>
-				</tr>
+			}
 			</tbody>
 		</table>
 

@@ -29,11 +29,13 @@
                             Orders
                         </a>
                     </li>
+                    @if (isUserLoggedIn()) {
                     <li class="nav-item">
                         <a class="nav-link " routerLink="/cart">
                             &nbsp; <i class="bi bi-cart"></i>&nbsp;
                         </a>
                     </li>
+                }
                 </ul>
                 <ul class="navbar-nav">
                     @if (isUserLoggedIn()) {

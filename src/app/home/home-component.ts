@@ -18,7 +18,7 @@ export class HomeComponent {
   response : ResponseDto;
   products: any;
 
-  constructor(public productService: ProductService, public toastr : ToastrService) {
+  constructor(private productService: ProductService, private toastr : ToastrService) {
     this.response = new ResponseDto();
     this.products = [];
     this.products$ = this.productService.getProducts();

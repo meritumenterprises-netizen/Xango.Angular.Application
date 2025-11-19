@@ -5,6 +5,7 @@ import { ProductService } from '../../services/ProductService';
 import { ResponseDto } from '../../services/ResponseDto';
 import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../services/AuthenticationService';
 
 @Component({
   standalone : true,
@@ -21,7 +22,7 @@ export class ProductDetailsComponent {
   product: any;
 
 
-  constructor(private route: ActivatedRoute, public productService: ProductService, toastr: ToastrService) {
+  constructor(private route: ActivatedRoute, public productService: ProductService, toastr: ToastrService, private authService: AuthService) {
     this.id = parseInt(this.route.snapshot.paramMap.get('id')!);
     this.response = new ResponseDto();
     this.product = null;
@@ -45,5 +46,9 @@ export class ProductDetailsComponent {
 
 ngOnInit(): void {
     console.log('ID from route:', this.id);
+  }
+
+  isLoggedIn() {
+    return this.authService.isUserLoggedIn();
   }
 }
