@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule, FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  FormGroup,
+  FormBuilder,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { AuthService, UserRecord, UserToken } from '../../services/AuthenticationService';
 import { Observable } from 'rxjs';
 import { ResponseDto } from '../../services/ResponseDto';
@@ -20,11 +26,16 @@ export class LoginComponent {
   // Password: ≥8 chars, 1 uppercase, 1 digit, 1 special character
   private readonly passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/;
 
-  public  loginForm: FormGroup;
-  private user$ : Observable<UserRecord> | any = null;
-  private responseDto : ResponseDto | any = null;
+  public loginForm: FormGroup;
+  private user$: Observable<UserRecord> | any = null;
+  private responseDto: ResponseDto | any = null;
 
-  constructor(private fb: FormBuilder, private authService : AuthService, private toastr: ToastrService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private toastr: ToastrService,
+    private router: Router,
+  ) {
     this.loginForm = this.fb.group({
       // ✔ safe now
       username: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
@@ -42,20 +53,26 @@ export class LoginComponent {
     }
     console.log(this.loginForm.value.username);
     console.log(this.loginForm.value.password);
-    this.user$ = this.authService.login(this.loginForm.value.username, this.loginForm.value.password);
+    this.user$ = this.authService.login(
+      this.loginForm.value.username,
+      this.loginForm.value.password,
+    );
     this.user$.subscribe({
       error: (err: any) => {
         console.error('Error', err);
-        this.toastr.error(`${err}`, "Error");
+        this.toastr.error(`${err}`, 'Error');
       },
       complete: () => {
         console.log('Done');
         if (this.authService.getUser() === null) {
-          this.toastr.error(`Could not log in user ${this.loginForm.value.username} with given password, or user does not exist`);
+          this.toastr.error(
+            `Could not log in user ${this.loginForm.value.username} with given password, or user does not exist`,
+          );
           return;
         }
         this.router.navigate(['/']);
-    }});
+      },
+    });
   }
 
   get username() {

@@ -31,20 +31,23 @@
 				</tr>
 			</thead>
 			<tbody>
+				@for (coupon of coupons; track coupon.couponId) {
 				<tr>
-					<td> SAVE10
+					<td> {{coupon.couponCode}}
 					</td>
-					<td> $10.00
+					<td> {{coupon.discountAmount | currency : 'USD'}}
 					</td>
 						<td>
-							$100.00
+							{{coupon.minAmount | currency: 'USD' }}
 					</td>
 					<td>
+						<a class="btn btn-primary" href="/coupon/edit/{{coupon.couponId}}"><i class="bi-pencil-square"></i></a>&nbsp;
 							<a asp-action="CouponDelete" asp-route-couponId="@item.CouponId" class="btn btn-danger">
 							<i class="bi bi-trash"></i>
 						</a>
 					</td>
 				</tr>
+			}
 			</tbody>
 		</table>
 

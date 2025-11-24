@@ -17,49 +17,48 @@
                         <label class="control-label pt-2" style="font-size:20px;"> Name</label>
                     </div>
                     <div class="col-10 pb-3">
-                        <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
+                        <input  class="form-control" value="{{product.name}}"/>
+                        <span class="text-danger"></span>
                     </div>
                     <div class="col-2">
                         <label class="control-label pt-2" style="font-size:20px;">Category Name</label>
                     </div>
                     <div class="col-10 pb-3">
-                        <input asp-for="CategoryName" class="form-control" />
-                        <span asp-validation-for="CategoryName" class="text-danger"></span>
+                        <input class="form-control" value="{{product.categoryName}}"/>
+                        <span class="text-danger"></span>
                     </div>
                     <div class="col-2">
                         <label class="control-label pt-2" style="font-size:20px;">Description</label>
                     </div>
                     <div class="col-10 pb-3">
-                        <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                        <textarea class="form-control" rows="5" value="{{product.description}}"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                     <div class="col-2">
-                        <label class="control-label pt-2" style="font-size:20px;">Price</label>
+                        <label class="control-label pt-2" style="font-size:20px;">Price (USD)</label>
                     </div>
                     <div class="col-10 pb-3">
-                        <input asp-for="Price" class="form-control" />
+                        <input class="form-control" value="{{product.price}}"/>
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
                     <div class="col-2">
                         <label class="control-label pt-2" style="font-size:20px;">In Stock</label>
                     </div>
                     <div class="col-10 pb-3">
-                        <input asp-for="StockInventory" class="form-control"/>
-                        <span asp-validation-for="StockInventory" class="text-danger"></span>
+                        <input class="form-control" value="{{product.stockInventory}}"/>
+                        <span class="text-danger"></span>
                     </div>
                     <div class="col-2">
                         <label class="control-label pt-2" style="font-size:20px;">ImageUrl</label>
                     </div>
                     <div class="col-10 pb-3">
-                        <input asp-for="Image" class="form-control" />
-                        <input asp-for="ImageUrl" hidden class="form-control" />
-                        <input asp-for="ImageLocalPath" hidden class="form-control" />
-                        <span asp-validation-for="Image" class="text-danger"></span>
+                        <input class="form-control" />
+                        <input hidden class="form-control" />
+                        <input hidden class="form-control" />
+                        <span class="text-danger"></span>
                     </div>
 
                     <div class="col-5 offset-2">
-
                         <a href="/product" asp-action="ProductIndex" class="btn-primary btn form-control ">Back to products</a>
                     </div>
                     <div class="col-5">
@@ -69,7 +68,7 @@
                 </div>
             </div>
             <div class="col-2">
-                <img src="@Model.ImageUrl" class="w-100" alt="" />
+                <img src="{{product.imageUrl}}" class="w-100" alt="" />
             </div>
         </div>
     </div>

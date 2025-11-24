@@ -40,7 +40,7 @@
 						{{product.name}}
 					</td>
 					<td>
-						{{product.category}}
+						{{product.categoryName}}
 					</td>
 					<td>
 						{{product.price | currency : 'USD'}}
@@ -49,7 +49,7 @@
 						{{product.stockInventory}}
 					</td>
 					<td>
-						<a href="/product/edit" class="btn btn-success">
+						<a href="/product/edit/{{product.productId}}" class="btn btn-success">
 							<i class="bi bi-pencil-square"></i>
 						</a>&nbsp;
 						<a href="/product/delete/{{product.productId}}" class="btn btn-danger" >

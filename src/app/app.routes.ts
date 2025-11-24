@@ -3,6 +3,8 @@ import { LoginComponent } from './auth/login/login-component';
 import { RegisterComponent } from './auth/register/register-component';
 import { HomeComponent } from './home/home-component';
 import { CouponComponent } from './coupon/index/coupon-component';
+import { EditCouponComponent } from './coupon/edit-coupon-component/edit-coupon-component';
+import { DeleteCouponComponent } from './coupon/delete-coupon-component/delete-coupon-component';
 import { ProductComponent } from './product/index/product-component';
 import { OrdersComponent } from './orders/orders-component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart-component';
@@ -18,9 +20,11 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'coupon/create', component: CreateCouponComponent },
+  { path: 'coupon/edit/:id', component: EditCouponComponent},
+  { path: 'coupon/delete/:id', component: DeleteCouponComponent },
   { path: 'coupon', component: CouponComponent },
   { path: 'product/create', component: CreateProductComponent },
-  { path: 'product/edit', component: ProductEditComponent },
+  { path: 'product/edit/:id', component: ProductEditComponent },
   { path: 'product/details/:id', component: ProductDetailsComponent },
   { path: 'product', component: ProductComponent },
   { path: 'orders', component: OrdersComponent },
