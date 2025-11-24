@@ -56,7 +56,7 @@
                 <a href="/coupon" class="btn-primary btn form-control ">Back to List</a>
             </div>
             <div class="col-6">
-                <input type="submit" value="Update" class="btn btn-success form-control" />
+                <input type="submit" value="Update" class="btn btn-success form-control" [disabled]="couponForm.invalid || couponForm.pristine" />
 
             </div>
 

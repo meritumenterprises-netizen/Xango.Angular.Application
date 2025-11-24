@@ -43,25 +43,48 @@ export class CouponService {
     );
   }
 
-  public updateCounpon(coupon: Coupon | any ) {
-      return this.http.put<ResponseDto>(`${this.baseUrl}/api/coupon`, coupon).pipe(
-      tap(() => console.log('Posted coupon to update microservice')),
-      catchError(err => {
-        this.toastr.error("Error updating coupons" + err, "Error");
-        return of<ResponseDto>(); // fallback so the app doesn’t crash
-      })
-    );
-  }
-
+  
   public getCouponByCode(code : string) : Coupon | any {
     return null;
   }
 
   public createCoupon(coupon : Coupon) {
-    return null;
+      return this.http.post<ResponseDto>(`${this.baseUrl}/api/coupon`, coupon).pipe(
+       tap((responseDto) => {
+        if (!responseDto.isSuccess) {
+          throw new Error(responseDto.message);
+        }
+        console.log('Posted new coupon to  microservice');
+      }),
+      catchError(err => {
+        this.toastr.error("Error creating coupons\r\n" + err, "Error");
+        return err;
+      })
+    );
   }
 
-  public editCoupon(coupon: Coupon) {
-    return null;
+  public updateCounpon(coupon: Coupon | any ) {
+      return this.http.put<ResponseDto>(`${this.baseUrl}/api/coupon`, coupon).pipe(
+      tap((responseDto) => {
+        if (!responseDto.isSuccess) {
+          throw new Error(responseDto.message);
+        }
+        console.log('Posted coupon to update microservice');
+      }),
+      catchError(err => {
+        this.toastr.error("Error updating coupons\r\n" + err, "Error");
+        return err;
+      })
+    );
+  }
+
+  public deleteCoupon(id : number) {
+      return this.http.delete<ResponseDto>(`${this.baseUrl}/api/coupon/${id}`).pipe(
+      tap(() => console.log('Sent coupon delete request to microservice')),
+      catchError(err => {
+        this.toastr.error("Error updating coupons" + err, "Error");
+        return of<ResponseDto>(); // fallback so the app doesn’t crash
+      })
+    );
   }
 }

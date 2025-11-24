@@ -43,7 +43,7 @@
 					<td>
 						<a class="btn btn-primary" href="/coupon/edit/{{coupon.couponId}}"><i class="bi-pencil-square"></i></a>&nbsp;
 							<a asp-action="CouponDelete" asp-route-couponId="@item.CouponId" class="btn btn-danger">
-							<i class="bi bi-trash"></i>
+							<i class="bi bi-trash" (click)="deleteItem(coupon.couponId)"></i>
 						</a>
 					</td>
 				</tr>

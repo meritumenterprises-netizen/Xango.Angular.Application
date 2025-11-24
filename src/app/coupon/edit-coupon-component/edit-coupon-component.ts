@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CouponService, Coupon } from '../../services/CouponService';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 import { ResponseDto } from '../../services/ResponseDto';
 import { ActivatedRoute, Router } from '@angular/router';
 import { lessThanValidator, __VALIDATORS_TEST__ } from '../../validators';
@@ -102,18 +102,18 @@ export class EditCouponComponent {
     this.coupon$.subscribe({
       error: (err: any) => {
         console.error('Error', err);
-        this.toastr.error(`${err}`, 'Error');
       },
       complete: () => {
-        console.log('Done');
-        if (this.couponService.getCoupon(this.couponId) == null) {
-          this.toastr.error(
-            `Could not get coupon for CouponId ${this.couponId} or the coupon does not exist`,
-          );
-          return;
+          console.log('Done');
+          if (this.couponService.getCoupon(this.couponId) == null) {
+            this.toastr.error(
+              `Could not get coupon for CouponId ${this.couponId} or the coupon does not exist`,
+            );
+            return;
+          }
+          this.toastr.success('Coupon successfully updated');
+          this.router.navigate(['/coupon']);
         }
-        this.router.navigate(['/coupon']);
-      },
     });
   }
 
