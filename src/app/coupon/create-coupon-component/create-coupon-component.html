@@ -15,7 +15,7 @@
                 <label class="control-label pt-2" style="font-size:20px;"> Coupon Code</label>
             </div>
             <div class="col-8 py-2">
-                <input class="form-control" formControlName="couponCode" minlength="6" maxlength="30"/>
+                <input class="form-control" formControlName="couponCode"/>
                 <div *ngIf="couponCode?.invalid && (couponCode?.touched || couponCode?.dirty)">
                     <small *ngIf="couponCode?.errors?.['required']" class="text-danger">Coupon code is required. </small>
                     <small *ngIf="couponCode?.errors?.['minlength']" class="text-danger">Coupon code must be at least 6 characters. </small>
