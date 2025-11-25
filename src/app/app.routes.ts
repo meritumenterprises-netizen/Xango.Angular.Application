@@ -21,7 +21,7 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'coupon/create', component: CreateCouponComponent, canDeactivate: [UnsavedChangesGuard] },
-  { path: 'coupon/edit/:id', component: EditCouponComponent},
+  { path: 'coupon/edit/:id', component: EditCouponComponent, canDeactivate: [UnsavedChangesGuard] },
   { path: 'coupon/delete/:id', component: DeleteCouponComponent },
   { path: 'coupon', component: CouponComponent },
   { path: 'product/create', component: CreateProductComponent },

@@ -119,7 +119,7 @@ export class CreateCouponComponent implements CanComponentDeactivate{
   beforeUnloadHandler(event: BeforeUnloadEvent) {
     if (this.couponForm && this.couponForm.dirty) {
       // Modern browsers ignore custom messages; set returnValue to trigger prompt.
-      //event.preventDefault();
+      event.preventDefault();
       event.returnValue = '';
     }
   }

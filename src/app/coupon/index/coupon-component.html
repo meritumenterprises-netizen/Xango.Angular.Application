@@ -41,8 +41,8 @@
 							{{coupon.minAmount | currency: 'USD' }}
 					</td>
 					<td>
-						<a class="btn btn-primary" [routerLink]="'[/coupon/edit/coupon.couponId]'"><i class="bi-pencil-square"></i></a>&nbsp;
-							<a asp-action="CouponDelete" asp-route-couponId="@item.CouponId" class="btn btn-danger">
+						<a class="btn btn-primary" [routerLink]="['/coupon/edit/' + coupon.couponId]"><i class="bi-pencil-square"></i></a>&nbsp;
+							<a class="btn btn-danger">
 							<i class="bi bi-trash" (click)="deleteItem(coupon.couponId)"></i>
 						</a>
 					</td>
