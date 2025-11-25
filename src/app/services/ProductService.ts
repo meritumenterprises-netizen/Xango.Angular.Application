@@ -58,7 +58,7 @@ export class ProductService {
   }
 
   public createProduct(product: Product) {
-    return this.http.post<ResponseDto>(`${this.baseUrl}/api/product/}`, product).pipe(
+    return this.http.post<ResponseDto>(`${this.baseUrl}/api/product/`, product).pipe(
        tap((responseDto) => {
         if (!responseDto.isSuccess) {
           throw new Error(responseDto.message);
@@ -66,7 +66,7 @@ export class ProductService {
       }),
       catchError(err => {
       this.toastr.error(`Error creating product\r\n` + err, "Error");
-        return of<ResponseDto>(); // fallback so the app doesn’t crash
+        return err;
       })
     );
   }

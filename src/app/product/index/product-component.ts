@@ -68,7 +68,6 @@ export class ProductComponent {
               this.refreshProducts();
             },
           });
-          
         }
       });
     }
