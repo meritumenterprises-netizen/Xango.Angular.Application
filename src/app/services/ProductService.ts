@@ -38,7 +38,7 @@ export class ProductService {
       }),
       catchError(err => {
         this.toastr.error("Error loading products\r\n" + err, "Error");
-        return of<ResponseDto>(); // fallback so the app doesn’t crash
+        throw err;
       })
     );
   }
@@ -52,7 +52,7 @@ export class ProductService {
       }),
       catchError(err => {
       this.toastr.error(`Error loading product with product id ${productId}\r\n` + err, "Error");
-        return of<ResponseDto>(); // fallback so the app doesn’t crash
+      throw err;
       })
     );
   }
@@ -66,7 +66,7 @@ export class ProductService {
       }),
       catchError(err => {
       this.toastr.error(`Error creating product\r\n` + err, "Error");
-        return err;
+      throw err;
       })
     );
   }
@@ -80,7 +80,7 @@ export class ProductService {
       }),
       catchError(err => {
       this.toastr.error(`Error updating product with product id ${product.productId}\r\n` + err, "Error");
-        return of<ResponseDto>(); // fallback so the app doesn’t crash
+      throw err;
       })
     );
   }
@@ -94,7 +94,7 @@ export class ProductService {
       }),
       catchError(err => {
         this.toastr.error("Error deleting product\r\n" + err, "Error");
-        return err;
+        throw err;
       })
     );
 
