@@ -37,7 +37,7 @@
 				@for (product of products; track product.productId) {
 				<tr>
 					<td>
-						{{product.name}}
+						{{product.name.length > 32 ? product.name.slice(0,32) + "..." : product.name}}
 					</td>
 					<td>
 						{{product.categoryName}}

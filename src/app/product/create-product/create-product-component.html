@@ -16,7 +16,7 @@
                         <label class="control-label pt-2" style="font-size:20px;"> Name</label>
                     </div>
                     <div class="col-10 pb-3">
-                        <input class="form-control" formControlName="productName" minlength="6" maxlength="100" />
+                        <input class="form-control" formControlName="productName" />
                         <div *ngIf="productName?.invalid && (productName?.touched || productName?.dirty)">
                             <small *ngIf="productName?.errors?.['required']" class="text-danger">Product name is
                                 required. </small>
@@ -30,7 +30,7 @@
                         <label class="control-label pt-2" style="font-size:20px;">Category Name</label>
                     </div>
                     <div class="col-10 pb-3">
-                        <input class="form-control" formControlName="categoryName" minlength="4" maxlength="50" />
+                        <input class="form-control" formControlName="categoryName"/>
                         <div *ngIf="categoryName?.invalid && (categoryName?.touched || categoryName?.dirty)">
                             <small *ngIf="categoryName?.errors?.['required']" class="text-danger">Category name is
                                 required. </small>
@@ -44,8 +44,7 @@
                         <label class="control-label pt-2" style="font-size:20px;">Description</label>
                     </div>
                     <div class="col-10 pb-3">
-                        <textarea class="form-control" formControlName="description" rows="5" minlength="4"
-                            maxlength="2000"></textarea>
+                        <textarea class="form-control" formControlName="description" rows="5"></textarea>
                         <div *ngIf="description?.invalid && (description?.touched || description?.dirty)">
                             <small *ngIf="description?.errors?.['required']" class="text-danger">Description is
                                 required. </small>
