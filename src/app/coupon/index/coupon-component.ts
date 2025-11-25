@@ -4,12 +4,12 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { ResponseDto } from '../../services/ResponseDto';
 import { CurrencyPipe } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-coupon-component',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, RouterModule],
   templateUrl: './coupon-component.html',
   styleUrl: './coupon-component.css',
 })
@@ -21,7 +21,7 @@ export class CouponComponent {
   constructor(
     private couponService: CouponService,
     private toastr: ToastrService,
-    private router: Router,
+    private router: Router
   ) {
     this.response = new ResponseDto();
     this.coupons = [];

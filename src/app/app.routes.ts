@@ -13,13 +13,14 @@ import { CreateProductComponent } from './product/create-product/create-product-
 import { ProductEditComponent } from './product/edit-product/edit-product-component';
 import { ProductDetailsComponent } from './product/product-details/product-details-component';
 import { LogoutComponent } from './auth/logout/logout-component';
+import { UnsavedChangesGuard } from './UnsavedChangesGuard';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // default route
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'logout', component: LogoutComponent },
-  { path: 'coupon/create', component: CreateCouponComponent },
+  { path: 'coupon/create', component: CreateCouponComponent, canDeactivate: [UnsavedChangesGuard] },
   { path: 'coupon/edit/:id', component: EditCouponComponent},
   { path: 'coupon/delete/:id', component: DeleteCouponComponent },
   { path: 'coupon', component: CouponComponent },

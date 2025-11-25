@@ -11,7 +11,7 @@
 			<div class="col-6">
 			</div>
 			<div class="col-6 text-end">
-				<a href="/coupon/create" class="btn btn-outline-primary"><i class="bi bi-plus-square"></i> Create New Coupon</a>
+				<a [routerLink]="['/coupon/create']" class="btn btn-outline-primary"><i class="bi bi-plus-square"></i> Create New Coupon</a>
 
 			</div>
 		</div>
@@ -41,7 +41,7 @@
 							{{coupon.minAmount | currency: 'USD' }}
 					</td>
 					<td>
-						<a class="btn btn-primary" href="/coupon/edit/{{coupon.couponId}}"><i class="bi-pencil-square"></i></a>&nbsp;
+						<a class="btn btn-primary" [routerLink]="'[/coupon/edit/coupon.couponId]'"><i class="bi-pencil-square"></i></a>&nbsp;
 							<a asp-action="CouponDelete" asp-route-couponId="@item.CouponId" class="btn btn-danger">
 							<i class="bi bi-trash" (click)="deleteItem(coupon.couponId)"></i>
 						</a>

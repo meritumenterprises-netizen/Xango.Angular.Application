@@ -53,7 +53,7 @@
 
             <div class="col-6">
 
-                <a href="/coupon" class="btn-primary btn form-control ">Back to List</a>
+                <a [routerLink]="['/coupon']" class="btn-primary btn form-control ">Back to List</a>
             </div>
             <div class="col-6">
                 <input type="submit" value="Create" class="btn btn-success form-control" [disabled]="couponForm.invalid || couponForm.pristine" />
