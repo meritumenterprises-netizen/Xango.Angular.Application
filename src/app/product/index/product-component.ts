@@ -5,11 +5,12 @@ import { AuthService } from '../../services/AuthenticationService';
 import { ResponseDto } from '../../services/ResponseDto';
 import { CurrencyPipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
-
+import { Router, RouterLink } from "@angular/router";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-component',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, RouterLink],
   templateUrl: './product-component.html',
   styleUrl: './product-component.css',
   providers: [ProductService]
@@ -19,9 +20,16 @@ export class ProductComponent {
     response : ResponseDto | any = null;
     products: Product[] | any;
   
-  constructor(private productService: ProductService, private toastr : ToastrService) {
+  constructor(
+    private productService: ProductService, 
+    private toastr : ToastrService,
+    private router: Router) {
     this.response = new ResponseDto();
     this.products = [];
+    this.refreshProducts();
+  }
+
+  refreshProducts() {
     this.products$ = this.productService.getProducts();
     this.products$.subscribe({
       next: (responseDto: any) => {
@@ -29,7 +37,6 @@ export class ProductComponent {
       },
       error: (err: string | undefined) => {
         console.error('Error', err);
-        toastr.error(err, "Error");
       },
       complete: () => {
         console.log('Done');
@@ -37,4 +44,33 @@ export class ProductComponent {
       }});
   }
 
+    deleteProduct(productId: number | any) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you really want to delete this coupon?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.productService.deleteProduct(productId).subscribe({
+            next: (response: any) => {
+              console.log('Product deleted', response);
+            },
+            error: (err: any) => {
+              console.error('Error', err);
+              this.toastr.error(err, 'Error');
+            },
+            complete: () => {
+              console.log('Done');
+              this.toastr.success("Product deleted");
+              this.refreshProducts();
+            },
+          });
+          
+        }
+      });
+    }
+  
 }

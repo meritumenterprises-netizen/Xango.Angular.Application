@@ -25,7 +25,11 @@ export class CouponService {
 
   public getCoupons() : Coupon[] | any {
       return this.http.get<ResponseDto>(`${this.baseUrl}/api/coupon`).pipe(
-      tap(() => console.log('Fetched coupons from microservice')),
+       tap((responseDto) => {
+        if (!responseDto.isSuccess) {
+          throw new Error(responseDto.message);
+        }
+      }),
       catchError(err => {
         this.toastr.error("Error loading coupons", "Error");
         return of<ResponseDto>(); // fallback so the app doesn’t crash
@@ -35,7 +39,11 @@ export class CouponService {
 
   public getCoupon(id: number) : Coupon | any {
       return this.http.get<ResponseDto>(`${this.baseUrl}/api/coupon/${id}`).pipe(
-      tap(() => console.log('Fetched coupons from microservice')),
+       tap((responseDto) => {
+        if (!responseDto.isSuccess) {
+          throw new Error(responseDto.message);
+        }
+      }),
       catchError(err => {
         this.toastr.error("Error loading coupons", "Error");
         return of<ResponseDto>(); // fallback so the app doesn’t crash
@@ -54,7 +62,6 @@ export class CouponService {
         if (!responseDto.isSuccess) {
           throw new Error(responseDto.message);
         }
-        console.log('Posted new coupon to  microservice');
       }),
       catchError(err => {
         this.toastr.error("Error creating coupons\r\n" + err, "Error");
@@ -69,7 +76,6 @@ export class CouponService {
         if (!responseDto.isSuccess) {
           throw new Error(responseDto.message);
         }
-        console.log('Posted coupon to update microservice');
       }),
       catchError(err => {
         this.toastr.error("Error updating coupons\r\n" + err, "Error");
@@ -80,10 +86,14 @@ export class CouponService {
 
   public deleteCoupon(id : number) {
       return this.http.delete<ResponseDto>(`${this.baseUrl}/api/coupon/${id}`).pipe(
-      tap(() => console.log('Sent coupon delete request to microservice')),
+      tap((responseDto) => {
+        if (!responseDto.isSuccess) {
+          throw new Error(responseDto.message);
+        }
+      }),
       catchError(err => {
-        this.toastr.error("Error updating coupons" + err, "Error");
-        return of<ResponseDto>(); // fallback so the app doesn’t crash
+        this.toastr.error("Error deleting coupon\r\n" + err, "Error");
+        return err;
       })
     );
   }

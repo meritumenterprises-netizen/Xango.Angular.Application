@@ -12,6 +12,7 @@ import { CreateCouponComponent } from './coupon/create-coupon-component/create-c
 import { CreateProductComponent } from './product/create-product/create-product-component';
 import { ProductEditComponent } from './product/edit-product/edit-product-component';
 import { ProductDetailsComponent } from './product/product-details/product-details-component';
+import { DeleteProductComponent } from './product/delete-product-component/delete-product-component';
 import { LogoutComponent } from './auth/logout/logout-component';
 import { UnsavedChangesGuard } from './UnsavedChangesGuard';
 
@@ -25,8 +26,9 @@ export const routes: Routes = [
   { path: 'coupon/delete/:id', component: DeleteCouponComponent },
   { path: 'coupon', component: CouponComponent },
   { path: 'product/create', component: CreateProductComponent },
-  { path: 'product/edit/:id', component: ProductEditComponent },
+  { path: 'product/edit/:id', component: ProductEditComponent, canDeactivate: [UnsavedChangesGuard] },
   { path: 'product/details/:id', component: ProductDetailsComponent },
+  { path: 'product/delete/:id', component: DeleteProductComponent },
   { path: 'product', component: ProductComponent },
   { path: 'orders', component: OrdersComponent },
   { path: 'cart', component: ShoppingCartComponent },

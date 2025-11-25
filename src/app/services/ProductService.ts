@@ -13,9 +13,9 @@ export interface Product {
         price : number;
         description : string;
         categoryName : string;
-        base64Image? : string;
-        imageUrl : string;
-        imageLocalPath : string;
+        base64Image? : string | null;
+        imageUrl : string | null;
+        imageLocalPath? : string | null;
         count : number;
         stockInventory : number;
 }
@@ -25,15 +25,19 @@ export class ProductService {
   private readonly baseUrl = ServiceSettings.PRODUCT_API;
 
   constructor(public http: HttpClient, public toastr: ToastrService ) {
-    toastr.toastrConfig.timeOut = 1500;
+    toastr.toastrConfig.timeOut = 5000;
     toastr.toastrConfig.closeButton = true;
   }
 
   public getProducts() {
     return this.http.get<ResponseDto>(`${this.baseUrl}/api/product`).pipe(
-      tap(() => console.log('Fetched products from microservice')),
+       tap((responseDto) => {
+        if (!responseDto.isSuccess) {
+          throw new Error(responseDto.message);
+        }
+      }),
       catchError(err => {
-        this.toastr.error("Error loading products", "Error");
+        this.toastr.error("Error loading products\r\n" + err, "Error");
         return of<ResponseDto>(); // fallback so the app doesn’t crash
       })
     );
@@ -41,11 +45,58 @@ export class ProductService {
 
   public getProduct (productId : number) {
     return this.http.get<ResponseDto>(`${this.baseUrl}/api/product/${productId}`).pipe(
-      tap(() => console.log(`Fetched product with product id ${productId} from microservice`)),
+       tap((responseDto) => {
+        if (!responseDto.isSuccess) {
+          throw new Error(responseDto.message);
+        }
+      }),
       catchError(err => {
-      this.toastr.error(`Error loading product with product id ${productId}`, "Error");
+      this.toastr.error(`Error loading product with product id ${productId}\r\n` + err, "Error");
         return of<ResponseDto>(); // fallback so the app doesn’t crash
       })
     );
+  }
+
+  public createProduct(product: Product) {
+    return this.http.post<ResponseDto>(`${this.baseUrl}/api/product/}`, product).pipe(
+       tap((responseDto) => {
+        if (!responseDto.isSuccess) {
+          throw new Error(responseDto.message);
+        }
+      }),
+      catchError(err => {
+      this.toastr.error(`Error creating product\r\n` + err, "Error");
+        return of<ResponseDto>(); // fallback so the app doesn’t crash
+      })
+    );
+  }
+
+  public updateProduct(product: Product) {
+    return this.http.put<ResponseDto>(`${this.baseUrl}/api/product`, product).pipe(
+       tap((responseDto) => {
+        if (!responseDto.isSuccess) {
+          throw new Error(responseDto.message);
+        }
+      }),
+      catchError(err => {
+      this.toastr.error(`Error updating product with product id ${product.productId}\r\n` + err, "Error");
+        return of<ResponseDto>(); // fallback so the app doesn’t crash
+      })
+    );
+  }
+
+  public deleteProduct(productId : number) {
+      return this.http.delete<ResponseDto>(`${this.baseUrl}/api/product/${productId}`).pipe(
+      tap((responseDto) => {
+        if (!responseDto.isSuccess) {
+          throw new Error(responseDto.message);
+        }
+      }),
+      catchError(err => {
+        this.toastr.error("Error deleting product\r\n" + err, "Error");
+        return err;
+      })
+    );
+
   }
 }

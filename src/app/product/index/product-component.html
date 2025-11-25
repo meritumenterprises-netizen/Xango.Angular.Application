@@ -49,11 +49,11 @@
 						{{product.stockInventory}}
 					</td>
 					<td>
-						<a href="/product/edit/{{product.productId}}" class="btn btn-success">
+						<a [routerLink]="['/product/edit/' + product.productId]" class="btn btn-success">
 							<i class="bi bi-pencil-square"></i>
 						</a>&nbsp;
-						<a href="/product/delete/{{product.productId}}" class="btn btn-danger" >
-							<i class="bi bi-trash"></i>
+						<a class="btn btn-danger" >
+							<i class="bi bi-trash" (click)="deleteProduct(product.productId)"></i>
 						</a>
 					</td>
 				</tr>

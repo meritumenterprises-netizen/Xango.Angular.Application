@@ -73,7 +73,6 @@ export class EditCouponComponent implements CanComponentDeactivate {
       },
       error: (err: string | undefined) => {
         console.error('Error', err);
-        toastr.error(err, 'Error');
       },
       complete: () => {
         console.log('Done');
@@ -83,6 +82,7 @@ export class EditCouponComponent implements CanComponentDeactivate {
           discountAmount: this.coupon.discountAmount,
           minAmount: this.coupon.minAmount,
         });
+        this.couponForm.markAsPristine();
       },
     });
   }
@@ -108,12 +108,6 @@ export class EditCouponComponent implements CanComponentDeactivate {
       },
       complete: () => {
           console.log('Done');
-          if (this.couponService.getCoupon(this.couponId) == null) {
-            this.toastr.error(
-              `Could not get coupon for CouponId ${this.couponId} or the coupon does not exist`,
-            );
-            return;
-          }
           this.couponForm.markAsPristine();
           this.toastr.success('Coupon successfully updated');
           this.router.navigate(['/coupon']);

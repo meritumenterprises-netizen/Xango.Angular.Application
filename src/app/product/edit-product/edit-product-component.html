@@ -1,14 +1,13 @@
-<form asp-action="ProductEdit" enctype="multipart/form-data">
+<form [formGroup]="productForm" #form="ngForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
     <br />
     <div class="container border p-3">
-	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
-		<div class="row">
-			<div class="col-12 text-center">
-				<h1 class="text-white">Edit Product</h1>
-			</div>
-		</div>
-	</div>
-        <input hidden asp-for="ProductId" />
+        <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="text-white">Edit Product</h1>
+                </div>
+            </div>
+        </div>
         <hr />
         <div class="row">
             <div class="col-10">
@@ -17,38 +16,77 @@
                         <label class="control-label pt-2" style="font-size:20px;"> Name</label>
                     </div>
                     <div class="col-10 pb-3">
-                        <input  class="form-control" value="{{product.name}}"/>
-                        <span class="text-danger"></span>
+                        <input class="form-control" formControlName="productName" minlength="6" maxlength="100" />
+                        <div *ngIf="productName?.invalid && (productName?.touched || productName?.dirty)">
+                            <small *ngIf="productName?.errors?.['required']" class="text-danger">Product name is
+                                required. </small>
+                            <small *ngIf="productName?.errors?.['minlength']" class="text-danger">Product name must be
+                                at least 6 characters. </small>
+                            <small *ngIf="productName?.errors?.['maxlength']" class="text-danger">Product name must be
+                                at most 100 characters. </small>
+                        </div>
                     </div>
                     <div class="col-2">
                         <label class="control-label pt-2" style="font-size:20px;">Category Name</label>
                     </div>
                     <div class="col-10 pb-3">
-                        <input class="form-control" value="{{product.categoryName}}"/>
-                        <span class="text-danger"></span>
+                        <input class="form-control" formControlName="categoryName" minlength="4" maxlength="50" />
+                        <div *ngIf="categoryName?.invalid && (categoryName?.touched || categoryName?.dirty)">
+                            <small *ngIf="categoryName?.errors?.['required']" class="text-danger">Category name is
+                                required. </small>
+                            <small *ngIf="categoryName?.errors?.['minlength']" class="text-danger">Category name must be
+                                at least 4 characters. </small>
+                            <small *ngIf="categoryName?.errors?.['maxlength']" class="text-danger">Category name must be
+                                at most 50 characters. </small>
+                        </div>
                     </div>
                     <div class="col-2">
                         <label class="control-label pt-2" style="font-size:20px;">Description</label>
                     </div>
                     <div class="col-10 pb-3">
-                        <textarea class="form-control" rows="5" value="{{product.description}}"></textarea>
-                        <span asp-validation-for="Description" class="text-danger"></span>
+                        <textarea class="form-control" formControlName="description" rows="5" minlength="4"
+                            maxlength="2000"></textarea>
+                        <div *ngIf="description?.invalid && (description?.touched || description?.dirty)">
+                            <small *ngIf="description?.errors?.['required']" class="text-danger">Description is
+                                required. </small>
+                            <small *ngIf="description?.errors?.['minlength']" class="text-danger">Description must be at
+                                least 4 characters. </small>
+                            <small *ngIf="description?.errors?.['maxlength']" class="text-danger">Description must be at
+                                most 2000 characters. </small>
+                        </div>
                     </div>
                     <div class="col-2">
                         <label class="control-label pt-2" style="font-size:20px;">Price (USD)</label>
                     </div>
                     <div class="col-10 pb-3">
-                        <input class="form-control" value="{{product.price}}"/>
-                        <span asp-validation-for="Price" class="text-danger"></span>
+                        <input class="form-control" formControlName="price" min="1" max="1000" />
+                        <div *ngIf="price?.invalid && (price?.touched || price?.dirty)">
+                            <small *ngIf="price?.errors?.['required']" class="text-danger">Price is required. </small>
+                            <small *ngIf="price?.errors?.['pattern']" class="text-danger">Price must be a number.
+                            </small>
+                            <small *ngIf="price?.errors?.['min']" class="text-danger">Price must be at least 1.00.
+                            </small>
+                            <small *ngIf="price?.errors?.['max']" class="text-danger">Price must be at most 1000.00.
+                            </small>
+                        </div>
                     </div>
                     <div class="col-2">
                         <label class="control-label pt-2" style="font-size:20px;">In Stock</label>
                     </div>
                     <div class="col-10 pb-3">
-                        <input class="form-control" value="{{product.stockInventory}}"/>
-                        <span class="text-danger"></span>
+                        <input class="form-control" formControlName="stockInventory" min="1" max="10000" />
+                        <div *ngIf="stockInventory?.invalid && (stockInventory?.touched || stockInventory?.dirty)">
+                            <small *ngIf="stockInventory?.errors?.['required']" class="text-danger">Stock quantity is
+                                required. </small>
+                            <small *ngIf="stockInventory?.errors?.['pattern']" class="text-danger">Stock quantity must
+                                be a number. </small>
+                            <small *ngIf="stockInventory?.errors?.['min']" class="text-danger">Stock quantity must be at
+                                least 1. </small>
+                            <small *ngIf="stockInventory?.errors?.['max']" class="text-danger">Stock quantity must be at
+                                most 10000. </small>
+                        </div>
                     </div>
-                    <div class="col-2">
+                    <!-- <div class="col-2">
                         <label class="control-label pt-2" style="font-size:20px;">ImageUrl</label>
                     </div>
                     <div class="col-10 pb-3">
@@ -56,13 +94,14 @@
                         <input hidden class="form-control" />
                         <input hidden class="form-control" />
                         <span class="text-danger"></span>
-                    </div>
+                    </div> -->
 
                     <div class="col-5 offset-2">
-                        <a href="/product" asp-action="ProductIndex" class="btn-primary btn form-control ">Back to products</a>
+                        <a [routerLink]="['/product']" class="btn-primary btn form-control ">Back to products</a>
                     </div>
                     <div class="col-5">
-                        <input type="submit" value="Update" class="btn btn-success form-control" />
+                        <input type="submit" value="Update" class="btn btn-success form-control"
+                            [disabled]="productForm.invalid || productForm.pristine" />
                     </div>
 
                 </div>

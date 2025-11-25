@@ -61,10 +61,12 @@ export class AuthService {
   register(email: string, user: string, phone: string, password: string, role: string) : Observable<ResponseDto> {
     return this.http.post<ResponseDto>(`${this.apiUrl}/api/auth/register`, { email, password })
       .pipe(
-        tap(response => {
-          //this.setToken(response.result.token);
-        })
-      );
+       tap((responseDto) => {
+        if (!responseDto.isSuccess) {
+          throw new Error(responseDto.message);
+        }
+      })
+    );
   }
   
 

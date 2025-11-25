@@ -36,8 +36,6 @@ export class CreateCouponComponent implements CanComponentDeactivate{
     private router: Router,
   ) {
     this.response = new ResponseDto();
-    //this.couponId = parseInt(this.route.snapshot.paramMap.get('id') as string)!;
-    //this.coupon$ = this.couponService.getCoupon(this.couponId);
     this.couponForm = this.fb.group(
       {
         couponCode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(30)]],
