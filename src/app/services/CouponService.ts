@@ -32,7 +32,7 @@ export class CouponService {
       }),
       catchError(err => {
         this.toastr.error("Error loading coupons", "Error");
-        return of<ResponseDto>(); // fallback so the app doesn’t crash
+        throw new Error(err);
       })
     );
   }
@@ -46,7 +46,7 @@ export class CouponService {
       }),
       catchError(err => {
         this.toastr.error("Error loading coupons", "Error");
-        return of<ResponseDto>(); // fallback so the app doesn’t crash
+        throw new Error(err);
       })
     );
   }
@@ -65,7 +65,7 @@ export class CouponService {
       }),
       catchError(err => {
         this.toastr.error("Error creating coupons\r\n" + err, "Error");
-        return err;
+        throw new Error(err);
       })
     );
   }
@@ -79,7 +79,7 @@ export class CouponService {
       }),
       catchError(err => {
         this.toastr.error("Error updating coupons\r\n" + err, "Error");
-        return err;
+        throw new Error(err);
       })
     );
   }
@@ -93,7 +93,7 @@ export class CouponService {
       }),
       catchError(err => {
         this.toastr.error("Error deleting coupon\r\n" + err, "Error");
-        return err;
+        throw new Error(err);
       })
     );
   }
