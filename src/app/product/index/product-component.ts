@@ -47,7 +47,7 @@ export class ProductComponent {
     deleteProduct(productId: number | any) {
       Swal.fire({
         title: 'Are you sure?',
-        text: 'Do you really want to delete this coupon?',
+        text: 'Do you really want to delete this product?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Delete',
