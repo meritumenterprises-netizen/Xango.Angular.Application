@@ -17,8 +17,7 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
-  background-color: #aaa;
+.rounded-swal {
+  border-radius: 20px !important;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2) !important;
 }
-

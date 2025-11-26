@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { ResponseDto } from '../../services/ResponseDto';
 import { ActivatedRoute, Router } from '@angular/router';
 import { lessThanValidator, __VALIDATORS_TEST__ } from '../../validators';
-import { CanComponentDeactivate } from '../../UnsavedChangesGuard';
+import { CanComponentDeactivatable } from '../../services/CanComponentDeactivatable';
 import { RouterLink, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 import {
@@ -24,7 +24,7 @@ import {
   templateUrl: './create-coupon-component.html',
   styleUrl: './create-coupon-component.css',
 })
-export class CreateCouponComponent implements CanComponentDeactivate{
+export class CreateCouponComponent extends CanComponentDeactivatable {
   couponForm: FormGroup | any = null;
   coupon$: Observable<ResponseDto> | any = null;
   response: ResponseDto | any = null;
@@ -35,6 +35,7 @@ export class CreateCouponComponent implements CanComponentDeactivate{
     private route: ActivatedRoute,
     private router: Router,
   ) {
+    super();
     this.response = new ResponseDto();
     this.couponForm = this.fb.group(
       {
@@ -63,6 +64,7 @@ export class CreateCouponComponent implements CanComponentDeactivate{
       },
     );
 
+    this.form = this.couponForm;
         this.couponForm.patchValue({
           couponCode: "SAVE",
           discountAmount: 1,
@@ -97,31 +99,6 @@ export class CreateCouponComponent implements CanComponentDeactivate{
       },
     });
   }
-
-  canDeactivate(): Promise<boolean> | boolean {
-    // If form is not dirty — allow navigation
-    if (!this.couponForm || !this.couponForm.dirty) {
-      return true;
-    }
-    return Swal.fire({
-      title: 'You have unsaved changes',
-      text: 'Do you really want to leave without saving?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Leave',
-      cancelButtonText: 'Stay'
-    }).then(result => !!result.isConfirmed);
-  }
-
-  @HostListener('window:beforeunload', ['$event'])
-  beforeUnloadHandler(event: BeforeUnloadEvent) {
-    if (this.couponForm && this.couponForm.dirty) {
-      // Modern browsers ignore custom messages; set returnValue to trigger prompt.
-      event.preventDefault();
-      event.returnValue = '';
-    }
-  }
-
 
   get couponCode() {
     return this.couponForm.get('couponCode');

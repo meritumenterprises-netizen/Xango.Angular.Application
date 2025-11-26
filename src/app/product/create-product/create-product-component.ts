@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { ResponseDto } from '../../services/ResponseDto';
 import { ActivatedRoute, Router } from '@angular/router';
 import { lessThanValidator, __VALIDATORS_TEST__ } from '../../validators';
-import { CanComponentDeactivate } from '../../UnsavedChangesGuard';
+import { CanComponentDeactivatable } from '../../services/CanComponentDeactivatable';
 import { RouterLink, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 import {
@@ -24,8 +24,8 @@ import {
   styleUrl: './create-product-component.css',
   providers: [ProductService],
 })
-export class CreateProductComponent implements CanComponentDeactivate{
-  productForm: FormGroup | any = null;
+export class CreateProductComponent extends CanComponentDeactivatable {
+  public productForm: FormGroup | any = null;
   product$: Observable<ResponseDto> | any = null;
   product: Product | any = null;
   response: ResponseDto | any = null;
@@ -38,6 +38,7 @@ export class CreateProductComponent implements CanComponentDeactivate{
     private route: ActivatedRoute,
     private router: Router,
   ) {
+    super();
     this.productForm = this.fb.group(
       {
         productName: [
@@ -82,6 +83,7 @@ export class CreateProductComponent implements CanComponentDeactivate{
         //validators: lessThanValidator('discountAmount', 'minAmount'),
       },
     );
+    this.form = this.productForm;
   }
 
   get productName() {
@@ -104,29 +106,6 @@ export class CreateProductComponent implements CanComponentDeactivate{
     return this.productForm.get('stockInventory');
   }
 
-    canDeactivate(): Promise<boolean> | boolean {
-    // If form is not dirty — allow navigation
-    if (!this.productForm || !this.productForm.dirty) {
-      return true;
-    }
-    return Swal.fire({
-      title: 'You have unsaved changes',
-      text: 'Do you really want to leave without saving?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Leave',
-      cancelButtonText: 'Stay'
-    }).then(result => !!result.isConfirmed);
-  }
-
-  @HostListener('window:beforeunload', ['$event'])
-  beforeUnloadHandler(event: BeforeUnloadEvent) {
-    if (this.productForm && this.productForm.dirty) {
-      // Modern browsers ignore custom messages; set returnValue to trigger prompt.
-      event.preventDefault();
-      event.returnValue = '';
-    }
-  }
 
   onSubmit() {
     if (this.productForm.invalid) {

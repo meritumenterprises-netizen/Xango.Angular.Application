@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService, Product } from '../../services/ProductService';
 import { ToastrService } from 'ngx-toastr';
@@ -6,8 +6,9 @@ import { Observable } from 'rxjs';
 import { ResponseDto } from '../../services/ResponseDto';
 import { ActivatedRoute, Router } from '@angular/router';
 import { lessThanValidator, __VALIDATORS_TEST__ } from '../../validators';
-import { CanComponentDeactivate } from '../../UnsavedChangesGuard';
+import { CanComponentDeactivate } from '../../services/UnsavedChangesGuard';
 import { RouterLink, RouterModule } from '@angular/router';
+import { CanComponentDeactivatable } from '../../services/CanComponentDeactivatable';
 import Swal from 'sweetalert2';
 import {
   FormsModule,
@@ -24,7 +25,7 @@ import {
   imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterModule],
   providers: [ProductService],
 })
-export class ProductEditComponent implements CanComponentDeactivate {
+export class ProductEditComponent extends CanComponentDeactivatable {
   productForm: FormGroup | any = null;
   product$: Observable<ResponseDto> | any = null;
   product: Product | any = null;
@@ -38,6 +39,7 @@ export class ProductEditComponent implements CanComponentDeactivate {
     private route: ActivatedRoute,
     private router: Router,
   ) {
+    super();
     this.productId = parseInt(this.route.snapshot.paramMap.get('id') as string)!;
     this.productForm = this.fb.group(
       {
@@ -84,6 +86,9 @@ export class ProductEditComponent implements CanComponentDeactivate {
       },
     );
 
+    
+    this.form = this.productForm;
+    
     this.product$ = this.productService.getProduct(this.productId);
     this.product$.subscribe({
       next: (responseDto: any) => {
@@ -128,29 +133,32 @@ export class ProductEditComponent implements CanComponentDeactivate {
     return this.productForm.get('stockInventory');
   }
 
-    canDeactivate(): Promise<boolean> | boolean {
-    // If form is not dirty — allow navigation
-    if (!this.productForm || !this.productForm.dirty) {
-      return true;
-    }
-    return Swal.fire({
-      title: 'You have unsaved changes',
-      text: 'Do you really want to leave without saving?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Leave',
-      cancelButtonText: 'Stay'
-    }).then(result => !!result.isConfirmed);
-  }
+  //   canDeactivate(): Promise<boolean> | boolean {
+  //   // If form is not dirty — allow navigation
+  //   if (!this.productForm || !this.productForm.dirty) {
+  //     return true;
+  //   }
+  //   return Swal.fire({
+  //     title: 'You have unsaved changes',
+  //     text: 'Do you really want to leave without saving?',
+  //     icon: 'warning',
+  //     showCancelButton: true,
+  //     confirmButtonText: 'Leave',
+  //     cancelButtonText: 'Stay',
+  //     customClass: {
+  //       popup: 'rounded-swal'
+  //     }
+  //   }).then(result => !!result.isConfirmed);
+  // }
 
-  @HostListener('window:beforeunload', ['$event'])
-  beforeUnloadHandler(event: BeforeUnloadEvent) {
-    if (this.productForm && this.productForm.dirty) {
-      // Modern browsers ignore custom messages; set returnValue to trigger prompt.
-      event.preventDefault();
-      event.returnValue = '';
-    }
-  }
+  // @HostListener('window:beforeunload', ['$event'])
+  // beforeUnloadHandler(event: BeforeUnloadEvent) {
+  //   if (this.productForm && this.productForm.dirty) {
+  //     // Modern browsers ignore custom messages; set returnValue to trigger prompt.
+  //     event.preventDefault();
+  //     event.returnValue = '';
+  //   }
+  // }
 
   onSubmit() {
     if (this.productForm.invalid) {
@@ -189,3 +197,5 @@ export class ProductEditComponent implements CanComponentDeactivate {
 
   }
 }
+
+

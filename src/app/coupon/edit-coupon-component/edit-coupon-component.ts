@@ -6,7 +6,7 @@ import { catchError, Observable } from 'rxjs';
 import { ResponseDto } from '../../services/ResponseDto';
 import { ActivatedRoute, Router } from '@angular/router';
 import { lessThanValidator, __VALIDATORS_TEST__ } from '../../validators';
-import { CanComponentDeactivate } from '../../UnsavedChangesGuard';
+import { CanComponentDeactivatable } from '../../services/CanComponentDeactivatable';
 import { RouterLink, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 import {
@@ -24,7 +24,7 @@ import {
   templateUrl: './edit-coupon-component.html',
   styleUrl: './edit-coupon-component.css',
 })
-export class EditCouponComponent implements CanComponentDeactivate {
+export class EditCouponComponent extends CanComponentDeactivatable {
   couponForm: FormGroup | any = null;
   coupon$: Observable<ResponseDto> | any = null;
   couponId: number | any;
@@ -37,6 +37,7 @@ export class EditCouponComponent implements CanComponentDeactivate {
     private route: ActivatedRoute,
     private router: Router,
   ) {
+    super();
     this.response = new ResponseDto();
     this.couponId = parseInt(this.route.snapshot.paramMap.get('id') as string)!;
     this.coupon$ = this.couponService.getCoupon(this.couponId);
@@ -66,6 +67,8 @@ export class EditCouponComponent implements CanComponentDeactivate {
         validators: lessThanValidator('discountAmount', 'minAmount'),
       },
     );
+
+    this.form = this.couponForm;
 
     this.coupon$.subscribe({
       next: (responseDto: any) => {
@@ -113,30 +116,6 @@ export class EditCouponComponent implements CanComponentDeactivate {
           this.router.navigate(['/coupon']);
         }
     });
-  }
-
-  canDeactivate(): Promise<boolean> | boolean {
-    // If form is not dirty — allow navigation
-    if (!this.couponForm || !this.couponForm.dirty) {
-      return true;
-    }
-    return Swal.fire({
-      title: 'You have unsaved changes',
-      text: 'Do you really want to leave without saving?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Leave',
-      cancelButtonText: 'Stay'
-    }).then(result => !!result.isConfirmed);
-  }
-
-  @HostListener('window:beforeunload', ['$event'])
-  beforeUnloadHandler(event: BeforeUnloadEvent) {
-    if (this.couponForm && this.couponForm.dirty) {
-      // Modern browsers ignore custom messages; set returnValue to trigger prompt.
-      event.preventDefault();
-      event.returnValue = '';
-    }
   }
 
   get couponCode() {
