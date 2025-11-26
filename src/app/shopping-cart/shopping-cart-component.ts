@@ -96,4 +96,15 @@ export class ShoppingCartComponent {
       }
     });
   }
+
+  emptyCart() {
+    this.shoppingCart$ = this.shoppingCartService.emptyCart();
+    this.shoppingCart$.subscribe({
+      next: () => {
+        console.log('Shopping cart has been emptied');
+        this.router.navigate(['/']);
+        //this.reloadShoppingCart();
+      }
+    });
+  }
 }

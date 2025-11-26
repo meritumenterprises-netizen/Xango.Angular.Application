@@ -170,7 +170,22 @@ export class ShoppingCartService {
         throw err;
       })
     );
+  }
 
+  public emptyCart() {
+    let user : UserRecord | any  = this.authService.getUser();
+    return this.http.delete<ResponseDto>(`${this.baseUrl}/api/cart/DeleteCart/${user.id}`).pipe(
+      tap((responseDto) => {
+       if (!responseDto.isSuccess) {
+         throw new Error(responseDto.message);
+       }
+       this.toastr.success("Shopping cart has been emptied");
+     }),
+     catchError(err => {
+       this.toastr.error( err, "Error");
+       throw err;
+     })
+   );
   }
 
 }
