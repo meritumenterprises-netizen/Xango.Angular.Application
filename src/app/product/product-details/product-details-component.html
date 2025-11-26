@@ -1,5 +1,4 @@
-<form (ngSubmit)="onSubmit()">
-    <input asp-for="ProductId" hidden />
+<form>
     @if (product != null) {
     <div class=" pt-4">
         <div class="card container" >
@@ -27,8 +26,8 @@
                             </div>
                             <div class="row mx-0">
                                 <label>Quantity</label>
-                                <input asp-for="Count" id="count" class="form-control" min="1" max="{{product.stockInventory}}" value="1"/>
-                                <span asp-validation-for="Count" class="text-danger"></span>
+                                <input #count class="form-control" min="1" max="{{product.stockInventory}}" value="1"/>
+                                <span  class="text-danger"></span>
                             </div>
                             <div class="row col-lg-16" style="margin-top: 20px">
                                 <div class="row pl-3" style="text-align: right">
@@ -45,7 +44,7 @@
                     <a [routerLink]="['/']" class="btn btn-success btn-square form-control btn-lg" style="height:50px;">Back</a>
                 </div>
                 <div class="col-12 col-md-6 ">
-                    <button type="submit" class="btn btn-primary form-control btn-lg" style="height:50px;" [class.disabled]="!isLoggedIn() || product.stockInventory == 0">Add to Cart</button>
+                    <button type="submit" class="btn btn-primary form-control btn-lg" style="height:50px;" [class.disabled]="!isLoggedIn() || product.stockInventory == 0" (click)="onSubmit(count.value)">Add to Cart</button>
                 </div>
             </div>
         </div>

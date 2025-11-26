@@ -1,4 +1,4 @@
-@if (shoppingCart == null) {
+@if (shoppingCart == null || shoppingCart.cartDetails == null) {
     <div class="text-black-50">Your shopping cart is empty</div>
 }
 @else {
@@ -42,7 +42,7 @@
                 <hr />
 
                 @for (cartDetail of shoppingCart.cartDetails; track cartDetail.cartDetailsId) {
-                <div class="row h-100">
+                <div class="row h-100 py-2">
                     <div class="col-2 col-md-2 text-center py-2">
                         <img src="{{cartDetail.product.imageUrl}}" class="rounded" width="100%" />
                     </div>
@@ -63,9 +63,9 @@
                         <span style="font-size:17px">{{ cartDetail.product.stockInventory}}</span>
                     </div>
                     <div class="col-1 col-md-1 pt-md-1">
-                        <a asp-action="Remove"
+                        <a 
                             class="btn btn-sm btn-danger">
-                            <i class="bi bi-trash-fill"></i>
+                            <i class="bi bi-trash-fill" (click)="onDeleteProductFromCart(cartDetail.cartDetailsId)"></i>
                         </a>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                 <div class="row">
                     <div class="col-6">
                         <span>Coupon: &nbsp;</span>
-                        <input value="{{shoppingCart.cartHeader.couponCode}}" #applyCouponCode />&nbsp;
+                        <input class="mx-2"  value="{{shoppingCart.cartHeader.couponCode}}" #applyCouponCode  [disabled]="shoppingCart.cartHeader.couponCode != null"/>
                         @if (shoppingCart.cartHeader.couponCode !== null) {
                             <button class="btn btn-sm btn-success" (click)="removeCoupon()"> Remove </button>
                         }

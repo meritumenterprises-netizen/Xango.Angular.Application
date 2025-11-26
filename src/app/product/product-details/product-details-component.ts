@@ -26,7 +26,8 @@ import {
 })
 export class ProductDetailsComponent {
   private id : number;
-  product$: Observable<ResponseDto>;
+  private product$: Observable<ResponseDto>;
+  private shoppingCart$: Observable<ResponseDto> | null = null;
   response : ResponseDto;
   product: any;
 
@@ -36,6 +37,7 @@ export class ProductDetailsComponent {
     public productService: ProductService, 
     private toastr: ToastrService, 
     private authService: AuthService,
+    private shoppingCartService : ShoppingCartService,
     private router: Router
   ) {
     this.id = parseInt(this.route.snapshot.paramMap.get('id')!);
@@ -59,8 +61,20 @@ export class ProductDetailsComponent {
       }});
   }
 
-onSubmit() {
+onSubmit(quantity : string) {
   console.log("Adding product to shopping cart");
+  let quantityVal = parseInt(quantity);
+  this.shoppingCart$ = this.shoppingCartService.addProductToCart(this.id, quantityVal);
+  this.shoppingCart$.subscribe({
+    next: responseDto => {
+      this.response = responseDto;
+      if (!this.response.isSuccess) {
+        throw new Error(this.response.message);
+      }
+      this.router.navigate(['/cart']);
+    }
+  })
+  
 }
 
   isLoggedIn() {

@@ -42,6 +42,16 @@ export class ApplyCouponDto {
   couponCode : string = "";
 }
 
+export class AddProductToCartDto {
+  userId : string = "";
+  productId : number = 0;
+  quantity : number = 0;
+}
+
+export class RemoveProductFromCartDto {
+  cartDetailsId : string = "";
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -94,7 +104,7 @@ export class ShoppingCartService {
       })
     );
   }
-
+  
   public applyCoupon(couponCode : string) {
     let user : UserRecord | null = this.authService.getUser();
     if (user == null) {
@@ -114,5 +124,41 @@ export class ShoppingCartService {
     );
   }
 
+  public addProductToCart(productId: number, quantity: number) {
+    let user : UserRecord | null = this.authService.getUser();
+    if (user == null) {
+      throw new Error('Cannot get a shopping cart if a user is not logged in');
+    }
+    let addProductToCart : AddProductToCartDto = { userId: user.id, productId: productId, quantity: quantity };
+    return this.http.post<ResponseDto>(`${this.baseUrl}/api/cart/AddProductToCart`, addProductToCart).pipe(
+       tap((responseDto) => {
+        if (!responseDto.isSuccess) {
+          throw new Error(responseDto.message);
+        }
+      }),
+      catchError(err => {
+        this.toastr.error(`Error adding product to cart}\r\n` + err, "Error");
+        throw err;
+      })
+    );
+
+  }
+
+  public removeProductFromCart(cartDetailId : number) {
+    let removeProductFromCartDto : RemoveProductFromCartDto = { cartDetailsId: cartDetailId.toString() };
+    return this.http.post<ResponseDto>(`${this.baseUrl}/api/cart/RemoveProductFromCart`, removeProductFromCartDto).pipe(
+       tap((responseDto) => {
+        if (!responseDto.isSuccess) {
+          throw new Error(responseDto.message);
+        }
+        this.toastr.success("Product successfully deleted from the cart");
+      }),
+      catchError(err => {
+        this.toastr.error(`Error removing product from cart}\r\n` + err, "Error");
+        throw err;
+      })
+    );
+
+  }
 
 }

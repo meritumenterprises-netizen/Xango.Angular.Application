@@ -59,8 +59,23 @@ export class ShoppingCartComponent {
         }
       },
     });
+ }
 
-  }
+ onDeleteProductFromCart(orderDetailsId: number) {
+  console.log("Removing product from shopping cart");
+  this.shoppingCart$ = this.shoppingCartService.removeProductFromCart(orderDetailsId);
+  this.shoppingCart$.subscribe({
+    next: responseDto => {
+      this.response = responseDto;
+      if (!this.response.isSuccess) {
+        throw new Error(this.response.message);
+      }
+      this.reloadShoppingCart();
+    }
+  })
+}
+
+
 
   removeCoupon() {
     this.shoppingCart$ = this.shoppingCartService.removeCoupon();
