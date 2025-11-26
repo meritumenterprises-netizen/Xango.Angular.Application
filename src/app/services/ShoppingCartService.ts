@@ -120,8 +120,8 @@ export class ShoppingCartService {
 
     let applyCouponDto : ApplyCouponDto = { userId: user.id, couponCode: couponCode };
 
-    this.couponService.getCouponByCode(couponCode).subscribe((response : ResponseDto) => {
-     });
+    // this.couponService.getCouponByCode(couponCode).subscribe((response : ResponseDto) => {
+    //  });
     
     return this.http.post<ResponseDto>(`${this.baseUrl}/api/cart/ApplyCouponToCart`, applyCouponDto).pipe(
        tap((responseDto) => {
@@ -130,7 +130,7 @@ export class ShoppingCartService {
         }
       }),
       catchError(err => {
-        this.toastr.error(`Error applying coupon ${couponCode} to shopping cart for user id ${user.id}}\r\n` + err, "Error");
+        this.toastr.error(err, "Error");
         throw err;
       })
     );
