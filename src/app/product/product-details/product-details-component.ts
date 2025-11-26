@@ -1,19 +1,28 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CurrencyPipe } from '@angular/common';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ProductService } from '../../services/ProductService';
 import { ResponseDto } from '../../services/ResponseDto';
 import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/AuthenticationService';
+import { ShoppingCartService } from '../../services/ShoppingCartService'; 
+import { Router, RouterLink } from '@angular/router';
+import {
+  FormsModule,
+  FormGroup,
+  FormBuilder,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 @Component({
   standalone : true,
   selector: 'app-product-details-component',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, FormsModule, ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './product-details-component.html',
   styleUrl: './product-details-component.css',
-  providers: [ProductService]
+  providers: [ProductService, ShoppingCartService]
 })
 export class ProductDetailsComponent {
   private id : number;
@@ -22,7 +31,13 @@ export class ProductDetailsComponent {
   product: any;
 
 
-  constructor(private route: ActivatedRoute, public productService: ProductService, toastr: ToastrService, private authService: AuthService) {
+  constructor(
+    private route: ActivatedRoute, 
+    public productService: ProductService, 
+    private toastr: ToastrService, 
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.id = parseInt(this.route.snapshot.paramMap.get('id')!);
     this.response = new ResponseDto();
     this.product = null;
@@ -44,9 +59,9 @@ export class ProductDetailsComponent {
       }});
   }
 
-ngOnInit(): void {
-    console.log('ID from route:', this.id);
-  }
+onSubmit() {
+  console.log("Adding product to shopping cart");
+}
 
   isLoggedIn() {
     return this.authService.isUserLoggedIn();

@@ -1,4 +1,4 @@
-<form method="post">
+<form (ngSubmit)="onSubmit()">
     <input asp-for="ProductId" hidden />
     @if (product != null) {
     <div class=" pt-4">
@@ -42,7 +42,7 @@
             </div>
             <div class="card-footer row">
                 <div class="col-12 col-md-6 pb-1 ">
-                    <a href="/" asp-action="Index" class="btn btn-success btn-square form-control btn-lg" style="height:50px;">Back to List</a>
+                    <a [routerLink]="['/']" class="btn btn-success btn-square form-control btn-lg" style="height:50px;">Back</a>
                 </div>
                 <div class="col-12 col-md-6 ">
                     <button type="submit" class="btn btn-primary form-control btn-lg" style="height:50px;" [class.disabled]="!isLoggedIn() || product.stockInventory == 0">Add to Cart</button>

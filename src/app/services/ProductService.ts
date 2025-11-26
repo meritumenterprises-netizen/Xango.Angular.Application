@@ -24,7 +24,10 @@ export interface Product {
 export class ProductService {
   private readonly baseUrl = ServiceSettings.PRODUCT_API;
 
-  constructor(public http: HttpClient, public toastr: ToastrService ) {
+  constructor(
+    private http: HttpClient,
+    private toastr: ToastrService 
+    ) {
     toastr.toastrConfig.timeOut = 5000;
     toastr.toastrConfig.closeButton = true;
   }

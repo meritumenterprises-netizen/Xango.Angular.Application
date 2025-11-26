@@ -1,8 +1,118 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { Observable, catchError, of, tap } from 'rxjs';
+import { ServiceSettings } from './ServiceSettings';
+import { ResponseDto } from './ResponseDto';
+import { AppComponent } from '../app.component';
+import { ToastrService } from 'ngx-toastr';
+import { Product } from './ProductService';
+import { AuthService, UserRecord } from './AuthenticationService';
+
+export interface ShoppingCartHeader {
+  cartHeaderId : number;
+  userId?: string;
+  couponCode?: string;
+  discount: number;
+  cartTotal: number;
+  name? : string;
+  phone? : string;
+  email? : string;
+}
+
+export interface ShoppingCartDetail {
+  cartDetailsId : number;
+  cartHeaderId: number;
+  cartHeader?: ShoppingCartHeader;
+  productId : number;
+  product?: Product;
+  count: number;
+}
+
+export interface ShoppingCart {
+  cartHeader: ShoppingCartHeader;
+  cartDetails?: ShoppingCartDetail[] | any;
+}
+
+export class RemoveCouponDto {
+  userId : string = "";
+}
+
+export class ApplyCouponDto {
+  userId : string = "";
+  couponCode : string = "";
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShoppingCartService {
-  
+  private readonly baseUrl = ServiceSettings.SHOPPINGCART_API;
+
+  constructor(
+    private http: HttpClient,
+    private toastr: ToastrService,
+    private authService : AuthService
+
+  ) {
+    toastr.toastrConfig.timeOut = 5000;
+    toastr.toastrConfig.closeButton = true;
+  } 
+
+  public getShoppingCart() {
+    let user : UserRecord | null = this.authService.getUser();
+    if (user == null) {
+      throw new Error('Cannot get a shopping cart if a user is not logged in');
+    }
+    return this.http.get<ResponseDto>(`${this.baseUrl}/api/cart/GetCart/${user.id}`).pipe(
+       tap((responseDto) => {
+        if (!responseDto.isSuccess) {
+          throw new Error(responseDto.message);
+        }
+      }),
+      catchError(err => {
+        this.toastr.error(`Error loading shopping cart for user id ${user.id}}\r\n` + err, "Error");
+        throw err;
+      })
+    );
+  }
+
+  public removeCoupon() {
+    let user : UserRecord | null = this.authService.getUser();
+    if (user == null) {
+      throw new Error('Cannot get a shopping cart if a user is not logged in');
+    }
+    let removeCouponDto : RemoveCouponDto = { userId: user.id };
+    return this.http.post<ResponseDto>(`${this.baseUrl}/api/cart/RemoveCoupon`, removeCouponDto).pipe(
+       tap((responseDto) => {
+        if (!responseDto.isSuccess) {
+          throw new Error(responseDto.message);
+        }
+      }),
+      catchError(err => {
+        this.toastr.error(`Error removing coupon from shopping cart for user id ${user.id}}\r\n` + err, "Error");
+        throw err;
+      })
+    );
+  }
+
+  public applyCoupon(couponCode : string) {
+    let user : UserRecord | null = this.authService.getUser();
+    if (user == null) {
+      throw new Error('Cannot get a shopping cart if a user is not logged in');
+    }
+    let applyCouponDto : ApplyCouponDto = { userId: user.id, couponCode: couponCode };
+    return this.http.post<ResponseDto>(`${this.baseUrl}/api/cart/ApplyCouponToCart`, applyCouponDto).pipe(
+       tap((responseDto) => {
+        if (!responseDto.isSuccess) {
+          throw new Error(responseDto.message);
+        }
+      }),
+      catchError(err => {
+        this.toastr.error(`Error applying coupon ${couponCode} to shopping cart for user id ${user.id}}\r\n` + err, "Error");
+        throw err;
+      })
+    );
+  }
+
+
 }
