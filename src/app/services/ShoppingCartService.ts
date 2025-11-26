@@ -66,6 +66,7 @@ export class ShoppingCartService {
   ) {
     toastr.toastrConfig.timeOut = 5000;
     toastr.toastrConfig.closeButton = true;
+    toastr.toastrConfig.enableHtml = true;
   } 
 
   public getShoppingCart() {
@@ -124,7 +125,7 @@ export class ShoppingCartService {
     );
   }
 
-  public addProductToCart(productId: number, quantity: number) {
+  public addProductToCart(productId: number, quantity: number, stockQuantity: number) {
     let user : UserRecord | null = this.authService.getUser();
     if (user == null) {
       throw new Error('Cannot get a shopping cart if a user is not logged in');
@@ -137,7 +138,7 @@ export class ShoppingCartService {
         }
       }),
       catchError(err => {
-        this.toastr.error(`Error adding product to cart}\r\n` + err, "Error");
+        this.toastr.error("Cannot add product to cart<br/><br/>" + err);
         throw err;
       })
     );

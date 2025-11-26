@@ -78,7 +78,7 @@ export class CouponService {
         }
       }),
       catchError(err => {
-        this.toastr.error("Error updating coupons\r\n" + err, "Error");
+        this.toastr.error("Error updating coupon\r\n" + err, "Error");
         throw new Error(err);
       })
     );

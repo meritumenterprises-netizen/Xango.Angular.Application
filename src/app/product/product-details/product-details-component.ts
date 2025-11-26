@@ -40,6 +40,7 @@ export class ProductDetailsComponent {
     private shoppingCartService : ShoppingCartService,
     private router: Router
   ) {
+    this.toastr.toastrConfig.enableHtml = true;
     this.id = parseInt(this.route.snapshot.paramMap.get('id')!);
     this.response = new ResponseDto();
     this.product = null;
@@ -61,10 +62,10 @@ export class ProductDetailsComponent {
       }});
   }
 
-onSubmit(quantity : string) {
+onSubmit(quantity : string, stockQuantity: string) {
   console.log("Adding product to shopping cart");
   let quantityVal = parseInt(quantity);
-  this.shoppingCart$ = this.shoppingCartService.addProductToCart(this.id, quantityVal);
+  this.shoppingCart$ = this.shoppingCartService.addProductToCart(this.id, quantityVal, parseInt(stockQuantity));
   this.shoppingCart$.subscribe({
     next: responseDto => {
       this.response = responseDto;
