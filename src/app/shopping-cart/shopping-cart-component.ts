@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../services/AuthenticationService';
 import { ShoppingCart, ShoppingCartService } from '../services/ShoppingCartService';
+import { CouponService } from '../services/CouponService';
 import { Router, RouterLink } from '@angular/router';
 import {
   FormsModule,
@@ -22,7 +23,7 @@ import {
   imports: [CurrencyPipe, FormsModule, ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './shopping-cart-component.html',
   styleUrl: './shopping-cart-component.css',
-  providers: [ProductService, ShoppingCartService],
+  providers: [ProductService, ShoppingCartService, CouponService],
 })
 export class ShoppingCartComponent {
   private shoppingCart$: Observable<ResponseDto> | null= null;
@@ -36,6 +37,7 @@ export class ShoppingCartComponent {
     private shoppingCartService: ShoppingCartService,
     private toastr: ToastrService,
     private authService: AuthService,
+    private couponService : CouponService,
     private router: Router,
   ) {
     this.reloadShoppingCart();
@@ -75,15 +77,12 @@ export class ShoppingCartComponent {
   })
 }
 
-
-
   removeCoupon() {
     this.shoppingCart$ = this.shoppingCartService.removeCoupon();
     this.shoppingCart$.subscribe({
-      complete: () => {
+      next: () => {
         console.log('Done');
         this.reloadShoppingCart();
-        this.router.navigate(['/cart']);
       }
     });
   }
@@ -91,10 +90,9 @@ export class ShoppingCartComponent {
   applyCoupon(couponCode : string) {
     this.shoppingCart$ = this.shoppingCartService.applyCoupon(couponCode);
     this.shoppingCart$.subscribe({
-      complete: () => {
+      next: () => {
         console.log('Done');
         this.reloadShoppingCart();
-        this.router.navigate(['/cart']);
       }
     });
   }

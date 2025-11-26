@@ -53,7 +53,17 @@ export class CouponService {
 
   
   public getCouponByCode(code : string) : Coupon | any {
-    return null;
+    return this.http.get<ResponseDto>(`${this.baseUrl}/api/coupon/GetByCode/${code}`).pipe(
+      tap ((responseDto) => {
+        if (!responseDto.isSuccess) {
+          throw new Error(responseDto.message);
+        }
+      }),
+      catchError((err) => {
+        this.toastr.error(err, "Error");
+        throw new Error(err);
+      })
+    );
   }
 
   public createCoupon(coupon : Coupon) {

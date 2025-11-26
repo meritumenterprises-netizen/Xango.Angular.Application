@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/AuthenticationService';
 import { ShoppingCartService } from '../../services/ShoppingCartService'; 
+import { CouponService } from '../../services/CouponService';
 import { Router, RouterLink } from '@angular/router';
 import {
   FormsModule,
@@ -22,7 +23,7 @@ import {
   imports: [CurrencyPipe, FormsModule, ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './product-details-component.html',
   styleUrl: './product-details-component.css',
-  providers: [ProductService, ShoppingCartService]
+  providers: [ProductService, ShoppingCartService, CouponService]
 })
 export class ProductDetailsComponent {
   private id : number;
@@ -38,6 +39,7 @@ export class ProductDetailsComponent {
     private toastr: ToastrService, 
     private authService: AuthService,
     private shoppingCartService : ShoppingCartService,
+    private couponService : CouponService,
     private router: Router
   ) {
     this.toastr.toastrConfig.enableHtml = true;
@@ -48,6 +50,10 @@ export class ProductDetailsComponent {
     this.product$.subscribe({
       next: responseDto => {
         this.response = responseDto;
+        this.product  = this.response.result;
+        if (this.product == null) {
+          toastr.error(`Product with id ${this.id} has not been found`);
+        }
       },
       error: err => {
         console.error('Error', err);
@@ -55,11 +61,8 @@ export class ProductDetailsComponent {
       },
       complete: () => {
         console.log('Done');
-        this.product  = this.response.result;
-        if (this.product == null) {
-          toastr.error(`Product with id ${this.id} has not been found`);
-        }
       }});
+
   }
 
 onSubmit(quantity : string, stockQuantity: string) {

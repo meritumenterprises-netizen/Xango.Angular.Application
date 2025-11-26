@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHandler } from '@angular/common/http';
-import { Observable, catchError, of, tap } from 'rxjs';
+import { Observable, catchError, concatMap, of, switchMap, tap } from 'rxjs';
 import { ServiceSettings } from './ServiceSettings';
 import { ResponseDto } from './ResponseDto';
 import { AppComponent } from '../app.component';
 import { ToastrService } from 'ngx-toastr';
 import { Product } from './ProductService';
 import { AuthService, UserRecord } from './AuthenticationService';
+import { Coupon, CouponService } from './CouponService';
+import { firstValueFrom } from 'rxjs';
 
 export interface ShoppingCartHeader {
   cartHeaderId : number;
@@ -46,6 +48,7 @@ export class AddProductToCartDto {
   userId : string = "";
   productId : number = 0;
   quantity : number = 0;
+  stockQuantity : number = 0;
 }
 
 export class RemoveProductFromCartDto {
@@ -58,10 +61,13 @@ export class RemoveProductFromCartDto {
 export class ShoppingCartService {
   private readonly baseUrl = ServiceSettings.SHOPPINGCART_API;
 
+  private coupon$ : Observable<ResponseDto> | any;
+
   constructor(
     private http: HttpClient,
     private toastr: ToastrService,
-    private authService : AuthService
+    private authService : AuthService,
+    private couponService : CouponService
 
   ) {
     toastr.toastrConfig.timeOut = 5000;
@@ -105,13 +111,18 @@ export class ShoppingCartService {
       })
     );
   }
-  
-  public applyCoupon(couponCode : string) {
+
+    public applyCoupon(couponCode : string) {
     let user : UserRecord | null = this.authService.getUser();
     if (user == null) {
       throw new Error('Cannot get a shopping cart if a user is not logged in');
     }
+
     let applyCouponDto : ApplyCouponDto = { userId: user.id, couponCode: couponCode };
+
+    this.couponService.getCouponByCode(couponCode).subscribe((response : ResponseDto) => {
+     });
+    
     return this.http.post<ResponseDto>(`${this.baseUrl}/api/cart/ApplyCouponToCart`, applyCouponDto).pipe(
        tap((responseDto) => {
         if (!responseDto.isSuccess) {
@@ -130,7 +141,7 @@ export class ShoppingCartService {
     if (user == null) {
       throw new Error('Cannot get a shopping cart if a user is not logged in');
     }
-    let addProductToCart : AddProductToCartDto = { userId: user.id, productId: productId, quantity: quantity };
+    let addProductToCart : AddProductToCartDto = { userId: user.id, productId: productId, quantity: quantity, stockQuantity: stockQuantity };
     return this.http.post<ResponseDto>(`${this.baseUrl}/api/cart/AddProductToCart`, addProductToCart).pipe(
        tap((responseDto) => {
         if (!responseDto.isSuccess) {
