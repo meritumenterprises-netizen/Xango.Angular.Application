@@ -16,18 +16,6 @@ import { LoaderComponent } from './loader-component/loader-component';
 export class AppComponent {
   protected readonly title = signal('Xango Angular Application');
 
-  constructor(public toastr: ToastrService) {
-  }
-
-  showToastSuccess(message: string) {
-    this.toastr.success(message, "Success");
-  }
-
-  showToastWarning(message: string) {
-    this.toastr.warning(message, "Warning");
-  }
-
-  showToastError(message: string) {
-    this.toastr.error(message, "Error");
+  constructor() {
   }
 }

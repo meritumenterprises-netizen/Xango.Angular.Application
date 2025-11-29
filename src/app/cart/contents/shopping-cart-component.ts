@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { ProductService } from '../services/ProductService';
-import { ResponseDto } from '../services/ResponseDto';
+import { ProductService } from '../../services/ProductService';
+import { ResponseDto } from '../../services/ResponseDto';
 import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../services/AuthenticationService';
-import { ShoppingCart, ShoppingCartService } from '../services/ShoppingCartService';
-import { CouponService } from '../services/CouponService';
+import { AuthService } from '../../services/AuthenticationService';
+import { ShoppingCart, ShoppingCartService } from '../../services/ShoppingCartService';
+import { CouponService } from '../../services/CouponService';
 import { Router, RouterLink } from '@angular/router';
 import {
   FormsModule,
@@ -30,6 +30,7 @@ export class ShoppingCartComponent {
   public shoppingCartForm: FormGroup | any = null;
   public shoppingCart: ShoppingCart | any = null;
   private response: ResponseDto | any = null;
+  public loading : boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,6 +45,7 @@ export class ShoppingCartComponent {
   }
 
   reloadShoppingCart() {
+    this.loading = true;
     this.shoppingCart$ = this.shoppingCartService.getShoppingCart();
     this.shoppingCart$.subscribe({
       next: (responseDto) => {
@@ -56,6 +58,7 @@ export class ShoppingCartComponent {
       complete: () => {
         console.log('Done');
         this.shoppingCart = this.response.result;
+        this.loading = false;
         if (this.shoppingCart == null) {
           this.toastr.error(`No shopping cart for the currently logged on user has been found`);
         }

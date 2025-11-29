@@ -95,7 +95,7 @@
                     <button class="btn btn-danger" (click)="emptyCart()">Empty Cart</button>
                 </div>
                 <div class="col-6 col-md-3 offset-md-6">
-                    <a class="btn btn-success form-control">Checkout </a>
+                    <a [routerLink]="['/cart/checkout']" class="btn btn-success form-control">Checkout </a>
                 </div>
             </div>
         </div>

@@ -7,7 +7,7 @@ import { EditCouponComponent } from './coupon/edit-coupon-component/edit-coupon-
 import { DeleteCouponComponent } from './coupon/delete-coupon-component/delete-coupon-component';
 import { ProductComponent } from './product/index/product-component';
 import { OrdersComponent } from './orders/orders-component';
-import { ShoppingCartComponent } from './shopping-cart/shopping-cart-component';
+import { ShoppingCartComponent } from './cart/contents/shopping-cart-component';
 import { CreateCouponComponent } from './coupon/create-coupon-component/create-coupon-component';
 import { CreateProductComponent } from './product/create-product/create-product-component';
 import { ProductEditComponent } from './product/edit-product/edit-product-component';
@@ -15,6 +15,7 @@ import { ProductDetailsComponent } from './product/product-details/product-detai
 import { DeleteProductComponent } from './product/delete-product-component/delete-product-component';
 import { LogoutComponent } from './auth/logout/logout-component';
 import { UnsavedChangesGuard } from './services/UnsavedChangesGuard';
+import { CheckoutCartComponent } from './cart/checkout/checkout-cart-component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // default route
@@ -32,6 +33,7 @@ export const routes: Routes = [
   { path: 'product', component: ProductComponent },
   { path: 'orders', component: OrdersComponent },
   { path: 'cart', component: ShoppingCartComponent },
+  { path: 'cart/checkout', component: CheckoutCartComponent },
   { path: '**', redirectTo: '/' } // wildcard route
 ];
 
