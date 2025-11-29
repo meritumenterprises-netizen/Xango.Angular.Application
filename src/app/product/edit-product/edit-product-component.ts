@@ -1,9 +1,10 @@
 import { Component, HostListener, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductService, Product } from '../../services/ProductService';
+import { Product } from '../../dto/Product';
+import { ProductService } from '../../services/ProductService';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { ResponseDto } from '../../services/ResponseDto';
+import { ResponseDto } from '../../dto/ResponseDto';
 import { ActivatedRoute, Router } from '@angular/router';
 import { lessThanValidator, __VALIDATORS_TEST__ } from '../../validators';
 import { CanComponentDeactivate } from '../../services/UnsavedChangesGuard';

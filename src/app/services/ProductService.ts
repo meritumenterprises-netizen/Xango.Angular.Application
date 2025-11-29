@@ -3,22 +3,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { Observable, catchError, of, tap } from 'rxjs';
 import { ServiceSettings } from './ServiceSettings';
-import { ResponseDto } from './ResponseDto';
+import { ResponseDto } from '../dto/ResponseDto';
 import { AppComponent } from '../app.component';
 import { ToastrService } from 'ngx-toastr';
-
-export interface Product {
-        productId : number;
-        name : string;
-        price : number;
-        description : string;
-        categoryName : string;
-        base64Image? : string | null;
-        imageUrl : string | null;
-        imageLocalPath? : string | null;
-        count : number;
-        stockInventory : number;
-}
+import { Product } from '../dto/Product';
 
 @Injectable()
 export class ProductService {

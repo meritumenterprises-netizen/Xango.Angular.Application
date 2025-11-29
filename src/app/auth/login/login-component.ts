@@ -7,9 +7,10 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { AuthService, UserRecord, UserToken } from '../../services/AuthenticationService';
+import { UserRecord } from '../../dto/UserRecord';
+import { AuthService } from '../../services/AuthenticationService';
 import { Observable } from 'rxjs';
-import { ResponseDto } from '../../services/ResponseDto';
+import { ResponseDto } from '../../dto/ResponseDto';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 

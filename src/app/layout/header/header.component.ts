@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router,  RouterLinkActive,RouterModule, RouterOutlet } from '@angular/router';
-import { UserRecord, AuthService } from '../../services/AuthenticationService';
+import { UserRecord } from '../../dto/UserRecord';
+import { AuthService } from '../../services/AuthenticationService';
 
 @Component({
   selector: 'app-header',

@@ -1,9 +1,10 @@
 import { Component, HostListener} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CouponService, Coupon } from '../../services/CouponService';
+import { Coupon } from '../../dto/Coupon';
+import { CouponService } from '../../services/CouponService';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { ResponseDto } from '../../services/ResponseDto';
+import { ResponseDto } from '../../dto/ResponseDto';
 import { ActivatedRoute, Router } from '@angular/router';
 import { lessThanValidator, __VALIDATORS_TEST__ } from '../../validators';
 import { CanComponentDeactivatable } from '../../services/CanComponentDeactivatable';

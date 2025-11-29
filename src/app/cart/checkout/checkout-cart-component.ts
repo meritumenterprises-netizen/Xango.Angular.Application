@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-import { ResponseDto } from '../../services/ResponseDto';
+import { ResponseDto } from '../../dto/ResponseDto';
 import { RouterModule } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CanComponentDeactivatable } from '../../services/CanComponentDeactivatable';
 import { ShoppingCart, ShoppingCartService } from '../../services/ShoppingCartService';
+import { OrderHeader } from '../../dto/OrderHeader';
+import { OrderDetail } from '../../dto/OrderDetail';
 
 import {
   FormsModule,
@@ -77,6 +79,7 @@ export class CheckoutCartComponent extends CanComponentDeactivatable {
  }
 
   onSubmit() {
+    
  }
 
  get name() {

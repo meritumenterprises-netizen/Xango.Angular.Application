@@ -1,16 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHandler } from '@angular/common/http';
-import { ResponseDto } from './ResponseDto';
+import { ResponseDto } from '../dto/ResponseDto';
 import { Observable, catchError, of, tap } from 'rxjs';
 import { ServiceSettings } from './ServiceSettings';
 import { ToastrService } from 'ngx-toastr';
-
-export interface Coupon {
-  couponId : number;
-  couponCode : string;
-  discountAmount : number;
-  minAmount : number;
-}
+import { Coupon } from '../dto/Coupon';
 
 @Injectable({
   providedIn: 'root'

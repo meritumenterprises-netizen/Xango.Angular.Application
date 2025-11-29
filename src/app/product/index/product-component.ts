@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProductService, Product } from '../../services/ProductService';
+import { Product } from '../../dto/Product';
+import { ProductService } from '../../services/ProductService';
 import { AuthService } from '../../services/AuthenticationService';
-import { ResponseDto } from '../../services/ResponseDto';
+import { ResponseDto } from '../../dto/ResponseDto';
 import { CurrencyPipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { Router, RouterLink } from "@angular/router";

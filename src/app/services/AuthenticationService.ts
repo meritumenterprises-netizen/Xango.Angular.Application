@@ -3,28 +3,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { ServiceSettings } from './ServiceSettings';
-import { ResponseDto } from './ResponseDto';
+import { ResponseDto } from '../dto/ResponseDto';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-
-
-export interface UserRecord {
-    id : string;
-    email: string;
-    name : string;
-    phoneNumber : string;
-    role: string;
-}
-
-export interface UserToken {
-    token: string;
-}
-
-export interface UserResponse {
-    user : UserRecord;
-    userToken: UserToken;
-}
+import { UserRecord } from '../dto/UserRecord';
+import { UserResponse } from '../dto/UserResponse';
 
 
 @Injectable({

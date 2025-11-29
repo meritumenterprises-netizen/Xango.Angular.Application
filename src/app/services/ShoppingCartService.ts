@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { Observable, catchError, concatMap, of, switchMap, tap } from 'rxjs';
 import { ServiceSettings } from './ServiceSettings';
-import { ResponseDto } from './ResponseDto';
+import { ResponseDto } from '../dto/ResponseDto';
 import { AppComponent } from '../app.component';
 import { ToastrService } from 'ngx-toastr';
-import { Product } from './ProductService';
-import { AuthService, UserRecord } from './AuthenticationService';
-import { Coupon, CouponService } from './CouponService';
+import { Product } from '../dto/Product';
+import { UserRecord } from '../dto/UserRecord';
+import { AuthService } from './AuthenticationService';
+import { Coupon } from '../dto/Coupon';
+import { CouponService } from './CouponService';
+import { OrderHeader } from '../dto/OrderHeader';
 import { firstValueFrom } from 'rxjs';
 
 export interface ShoppingCartHeader {
@@ -33,6 +36,12 @@ export interface ShoppingCartDetail {
 export interface ShoppingCart {
   cartHeader: ShoppingCartHeader;
   cartDetails?: ShoppingCartDetail[] | any;
+}
+
+export class StripeRequest {
+  approvedUrl: string = "";
+  cancelUrl: string = "";
+  orderHeader : OrderHeader | null = null;
 }
 
 export class RemoveCouponDto {

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { ProductService, Product } from '../services/ProductService';
+import { Product } from '../dto/Product';
+import { ProductService } from '../services/ProductService';
 import { Observable } from 'rxjs';
 import { CurrencyPipe } from '@angular/common';
-import { ResponseDto } from '../services/ResponseDto';
+import { ResponseDto } from '../dto/ResponseDto';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

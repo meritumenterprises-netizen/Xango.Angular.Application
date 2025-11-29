@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { CouponService, Coupon } from '../../services/CouponService';
+import { Coupon } from '../../dto/Coupon';
+import { CouponService } from '../../services/CouponService';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { ResponseDto } from '../../services/ResponseDto';
+import { ResponseDto } from '../../dto/ResponseDto';
 import { CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
