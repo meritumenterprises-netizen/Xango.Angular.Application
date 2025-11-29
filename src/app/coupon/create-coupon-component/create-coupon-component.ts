@@ -6,8 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { ResponseDto } from '../../dto/ResponseDto';
 import { ActivatedRoute, Router } from '@angular/router';
-import { lessThanValidator, __VALIDATORS_TEST__ } from '../../validators';
-import { CanComponentDeactivatable } from '../../services/CanComponentDeactivatable';
+import { lessThanValidator, __VALIDATORS_TEST__ } from '../../validators/validators';
+import { CanComponentDeactivatable } from '../../basecomponents/CanComponentDeactivatable';
 import { RouterLink, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 import {

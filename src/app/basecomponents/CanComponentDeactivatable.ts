@@ -1,7 +1,7 @@
 import { Component, HostListener, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-import { CanComponentDeactivate } from './UnsavedChangesGuard';
+import { CanComponentDeactivate } from '../guards/UnsavedChangesGuard';
 import Swal from 'sweetalert2';
 import {
   FormsModule,

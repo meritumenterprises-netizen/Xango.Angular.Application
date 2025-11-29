@@ -6,10 +6,10 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { ResponseDto } from '../../dto/ResponseDto';
 import { ActivatedRoute, Router } from '@angular/router';
-import { lessThanValidator, __VALIDATORS_TEST__ } from '../../validators';
-import { CanComponentDeactivate } from '../../services/UnsavedChangesGuard';
+import { lessThanValidator, __VALIDATORS_TEST__ } from '../../validators/validators';
+import { CanComponentDeactivate } from '../../guards/UnsavedChangesGuard';
 import { RouterLink, RouterModule } from '@angular/router';
-import { CanComponentDeactivatable } from '../../services/CanComponentDeactivatable';
+import { CanComponentDeactivatable } from '../../basecomponents/CanComponentDeactivatable';
 import Swal from 'sweetalert2';
 import {
   FormsModule,

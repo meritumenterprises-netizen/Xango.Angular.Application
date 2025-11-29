@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { CanComponentDeactivatable } from '../../services/CanComponentDeactivatable';
+import { CanComponentDeactivatable } from '../../basecomponents/CanComponentDeactivatable';
 import { ShoppingCart, ShoppingCartService } from '../../services/ShoppingCartService';
 import { OrderHeader } from '../../dto/OrderHeader';
 import { OrderDetail } from '../../dto/OrderDetail';

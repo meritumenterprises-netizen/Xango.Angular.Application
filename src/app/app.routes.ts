@@ -14,7 +14,7 @@ import { ProductEditComponent } from './product/edit-product/edit-product-compon
 import { ProductDetailsComponent } from './product/product-details/product-details-component';
 import { DeleteProductComponent } from './product/delete-product-component/delete-product-component';
 import { LogoutComponent } from './auth/logout/logout-component';
-import { UnsavedChangesGuard } from './services/UnsavedChangesGuard';
+import { UnsavedChangesGuard } from './guards/UnsavedChangesGuard';
 import { CheckoutCartComponent } from './cart/checkout/checkout-cart-component';
 
 export const routes: Routes = [
