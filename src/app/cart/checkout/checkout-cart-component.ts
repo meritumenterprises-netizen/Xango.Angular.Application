@@ -7,7 +7,10 @@ import { CurrencyPipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CanComponentDeactivatable } from '../../basecomponents/CanComponentDeactivatable';
-import { ShoppingCart, ShoppingCartService } from '../../services/ShoppingCartService';
+import { ShoppingCartHeader } from '../../dto/ShoppingCartHeader';
+import { ShoppingCartDetail } from '../../dto/ShoppingCartDetail';
+import { ShoppingCart } from '../../dto/ShoppingCart';
+import { ShoppingCartService } from '../../services/ShoppingCartService';
 import { OrderHeader } from '../../dto/OrderHeader';
 import { OrderDetail } from '../../dto/OrderDetail';
 

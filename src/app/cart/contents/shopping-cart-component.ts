@@ -6,7 +6,10 @@ import { ResponseDto } from '../../dto/ResponseDto';
 import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/AuthenticationService';
-import { ShoppingCart, ShoppingCartService } from '../../services/ShoppingCartService';
+import { ShoppingCart } from '../../dto/ShoppingCart';
+import { ShoppingCartHeader } from '../../dto/ShoppingCartHeader';
+import { ShoppingCartDetail } from '../../dto/ShoppingCartDetail';
+import { ShoppingCartService } from '../../services/ShoppingCartService';
 import { CouponService } from '../../services/CouponService';
 import { Router, RouterLink } from '@angular/router';
 import {

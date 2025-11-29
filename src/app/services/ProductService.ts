@@ -18,6 +18,7 @@ export class ProductService {
     ) {
     toastr.toastrConfig.timeOut = 5000;
     toastr.toastrConfig.closeButton = true;
+    toastr.toastrConfig.enableHtml = true;
   }
 
   public getProducts() {
@@ -28,7 +29,7 @@ export class ProductService {
         }
       }),
       catchError(err => {
-        this.toastr.error("Error loading products\r\n" + err, "Error");
+        this.toastr.error("Error loading products<br/><br/>" + err, "Error");
         throw err;
       })
     );
@@ -42,7 +43,7 @@ export class ProductService {
         }
       }),
       catchError(err => {
-      this.toastr.error(`Error loading product with product id ${productId}\r\n` + err, "Error");
+      this.toastr.error(`Error loading product with product id ${productId}<br/><br/>` + err, "Error");
       throw err;
       })
     );
@@ -56,7 +57,7 @@ export class ProductService {
         }
       }),
       catchError(err => {
-      this.toastr.error(`Error creating product\r\n` + err, "Error");
+      this.toastr.error(`Error creating product<br/><br/>` + err, "Error");
       throw err;
       })
     );
@@ -70,7 +71,7 @@ export class ProductService {
         }
       }),
       catchError(err => {
-      this.toastr.error(`Error updating product with product id ${product.productId}\r\n` + err, "Error");
+      this.toastr.error(`Error updating product with product id ${product.productId}<br/><br/>` + err, "Error");
       throw err;
       })
     );
@@ -84,7 +85,7 @@ export class ProductService {
         }
       }),
       catchError(err => {
-        this.toastr.error("Error deleting product\r\n" + err, "Error");
+        this.toastr.error("Error deleting product<br/><br/>" + err, "Error");
         throw err;
       })
     );

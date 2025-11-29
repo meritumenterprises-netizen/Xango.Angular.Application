@@ -16,6 +16,7 @@ import { DeleteProductComponent } from './product/delete-product-component/delet
 import { LogoutComponent } from './auth/logout/logout-component';
 import { UnsavedChangesGuard } from './guards/UnsavedChangesGuard';
 import { CheckoutCartComponent } from './cart/checkout/checkout-cart-component';
+import { PlaceOrderComponent } from './cart/place-order-component/place-order-component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // default route
@@ -34,6 +35,7 @@ export const routes: Routes = [
   { path: 'orders', component: OrdersComponent },
   { path: 'cart', component: ShoppingCartComponent },
   { path: 'cart/checkout', component: CheckoutCartComponent },
+  { path: 'cart/placeorder', component: PlaceOrderComponent },
   { path: '**', redirectTo: '/' } // wildcard route
 ];
 

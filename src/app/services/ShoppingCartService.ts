@@ -12,57 +12,10 @@ import { Coupon } from '../dto/Coupon';
 import { CouponService } from './CouponService';
 import { OrderHeader } from '../dto/OrderHeader';
 import { firstValueFrom } from 'rxjs';
-
-export interface ShoppingCartHeader {
-  cartHeaderId : number;
-  userId?: string;
-  couponCode?: string;
-  discount: number;
-  cartTotal: number;
-  name? : string;
-  phone? : string;
-  email? : string;
-}
-
-export interface ShoppingCartDetail {
-  cartDetailsId : number;
-  cartHeaderId: number;
-  cartHeader?: ShoppingCartHeader;
-  productId : number;
-  product?: Product;
-  count: number;
-}
-
-export interface ShoppingCart {
-  cartHeader: ShoppingCartHeader;
-  cartDetails?: ShoppingCartDetail[] | any;
-}
-
-export class StripeRequest {
-  approvedUrl: string = "";
-  cancelUrl: string = "";
-  orderHeader : OrderHeader | null = null;
-}
-
-export class RemoveCouponDto {
-  userId : string = "";
-}
-
-export class ApplyCouponDto {
-  userId : string = "";
-  couponCode : string = "";
-}
-
-export class AddProductToCartDto {
-  userId : string = "";
-  productId : number = 0;
-  quantity : number = 0;
-  stockQuantity : number = 0;
-}
-
-export class RemoveProductFromCartDto {
-  cartDetailsId : string = "";
-}
+import { ApplyCouponDto } from '../dto/ApplyCoupon';
+import { RemoveCouponDto } from '../dto/RemoveCoupon';
+import { AddProductToCartDto } from '../dto/AddProductToCart';
+import { RemoveProductFromCartDto } from '../dto/RemoveProductFromCart';
 
 @Injectable({
   providedIn: 'root'
