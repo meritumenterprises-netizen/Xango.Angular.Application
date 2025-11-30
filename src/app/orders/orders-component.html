@@ -4,23 +4,23 @@
 				<h1 class="text-white">Order List</h1>
 		</div>
 		<ul class="list-group list-group-horizontal-sm pt-2">
-			<a style="text-decoration:none" asp-controller="Order" asp-action="OrderIndex" asp-route-status="pending">
-			<li class="list-group-item @pending">Pending</li>
+			<a style="text-decoration:none; cursor: pointer" (click)="onClickPending()" >
+			<li class="list-group-item pending" [ngClass]="status === 'pending' ? 'selected' : 'deselected'">Pending</li>
 			</a>
-			<a style="text-decoration:none" asp-controller="Order" asp-action="OrderIndex" asp-route-status="approved">
-				<li class="list-group-item @approved">Approved</li>
+			<a style="text-decoration:none; cursor: pointer"  (click)="onClickApproved()">
+				<li class="list-group-item @approved" [ngClass]="status === 'approved' ? 'selected' : 'deselected'">Approved</li>
 			</a>
-			<a style="text-decoration:none" asp-controller="Order" asp-action="OrderIndex" asp-route-status="readyforpickup">
-			<li class="list-group-item @readyforpickup">Ready for Pickup</li>
+			<a style="text-decoration:none; cursor: pointer"  (click)="onClickReadyForPickup()">
+			<li class="list-group-item @readyforpickup" [ngClass]="status === 'readyforpickup' ? 'selected' : 'deselected'">Ready for Pickup</li>
 			</a>
-			<a style="text-decoration:none" asp-controller="Order" asp-action="OrderIndex" asp-route-status="cancelled">
-			<li class="list-group-item @cancelled">Cancelled</li>
+			<a style="text-decoration:none; cursor: pointer"  (click)="onClickCancelled()">
+			<li class="list-group-item @cancelled" [ngClass]="status === 'cancelled' ? 'selected' : 'deselected'">Cancelled</li>
 			</a>
-			<a style="text-decoration:none" asp-controller="Order" asp-action="OrderIndex" asp-route-status="completed">
-			<li class="list-group-item @completed">Completed</li>
+			<a style="text-decoration:none; cursor: pointer"  (click)="onClickCompleted()">
+			<li class="list-group-item @completed" [ngClass]="status === 'complete' ? 'selected' : 'deselected'">Complete</li>
 			</a>
-			<a style="text-decoration:none" asp-controller="Order" asp-action="OrderIndex" asp-route-status="all">
-			<li class="list-group-item @all">All</li>
+			<a style="text-decoration:none; cursor: pointer"  (click)="onClickAll()">
+			<li class="list-group-item @all" [ngClass]="status === 'all' ? 'selected' : 'deselected'">All</li>
 			</a>
 		</ul>
 	</div>
@@ -37,8 +37,21 @@
 					<th></th>
 				</tr>
 			</thead>
+			<tbody>
+				@for (order of orders; track order.orderHeaderId) {
+					<tr>
+						<td>{{order.orderHeaderId}}</td>
+						<td>{{order.email}}</td>
+						<td>{{order.name}}</td>
+						<td>{{order.phone}}</td>
+						<td>{{order.status}}</td>
+						<td>{{order.orderTotal | currency: 'USD'}}</td>
+						<td style="text-align: center;"><i class="bi bi-pencil-square" style="cursor: pointer" (click)="onEditOrder(order.orderHeaderId)"></i></td>
+					</tr>
+				}
+			</tbody>
 		</table>
 	</div>
 </div>
-<script src="~/assets/order.js"></script>
+
 

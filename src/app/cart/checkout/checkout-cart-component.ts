@@ -20,6 +20,7 @@ import {
   ReactiveFormsModule,
   Form,
 } from '@angular/forms';
+import { SaveCartDetails } from '../../dto/SaveCartDetails';
 
 
 @Component({
@@ -81,6 +82,12 @@ export class CheckoutCartComponent extends CanComponentDeactivatable {
  }
 
   onSubmit() {
+    let saveUserDetails : SaveCartDetails = {
+      name: this.shoppingCartForm.get("name").value,
+      phone: this.shoppingCartForm.get("phone").value,
+      email: this.shoppingCartForm.get("email").value
+    } ;   
+    sessionStorage.setItem('userDetails', JSON.stringify(saveUserDetails));
     this.router.navigate(['/cart/placeorder']);    
  }
 

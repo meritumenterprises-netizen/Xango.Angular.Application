@@ -35,6 +35,7 @@ export const routes: Routes = [
   { path: 'product/delete/:id', component: DeleteProductComponent },
   { path: 'product', component: ProductComponent },
   { path: 'order', component: OrdersComponent },
+  { path: 'order/:status', component: OrdersComponent },
   { path: 'order/details/:id', component: OrderDetailsComponent },
   { path: 'cart', component: ShoppingCartComponent },
   { path: 'cart/checkout', component: CheckoutCartComponent },

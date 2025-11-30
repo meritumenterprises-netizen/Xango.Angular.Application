@@ -14,6 +14,7 @@ import { OrderHeader } from '../../dto/OrderHeader';
 import { OrderDetail } from '../../dto/OrderDetail';
 import { OrderService } from '../../services/OrderService';
 import { StripeRequest } from '../../dto/StripeRequest';
+import { SaveCartDetails } from '../../dto/SaveCartDetails';
 
 @Component({
   standalone: true,
@@ -31,6 +32,7 @@ export class PlaceOrderComponent {
   private order: OrderHeader | any  = null;
   private response: ResponseDto | any = null;
   private stripeSessionUrl : string | null = null;
+  private userDetails : SaveCartDetails | any = null;
 constructor(
   private shoppingCartService: ShoppingCartService,
   private orderService: OrderService,
@@ -43,6 +45,12 @@ constructor(
         window.location.href = '/cart';
       }
     };
+    const raw = sessionStorage.getItem('userDetails');
+    const dto = raw ? JSON.parse(raw) as SaveCartDetails : null;
+// optionally remove item after reading
+    sessionStorage.removeItem('userDetails');
+    this.userDetails = dto;
+    
     this.shoppingCart$ = this.shoppingCartService.getShoppingCart();
     this.shoppingCart$.subscribe({
       next: (responseDto) => {
@@ -55,6 +63,12 @@ constructor(
           return;
         }
 
+        console.log(this.userDetails.name);
+        console.log(this.userDetails.email);
+        console.log(this.userDetails.phone);
+        this.shoppingCart.cartHeader.name = this.userDetails.name;
+        this.shoppingCart.cartHeader.email = this.userDetails.email;
+        this.shoppingCart.cartHeader.phone = this.userDetails.phone;
         this.order$ = this.orderService.createOrder(this.shoppingCart);
         this.order$.subscribe({
           next: (responseDto : ResponseDto) => {
@@ -65,6 +79,7 @@ constructor(
               cancelUrl : "http://localhost:4200/cart/checkout",
               orderHeader : this.order
             };
+            
             this.order.orderTotalWithCurrency = "$" + this.order.orderTotal.toFixed(2).toString();
             this.stripeSession$ = this.orderService.createStripeSession(this.stripeRequest);
             this.stripeSession$.subscribe({

@@ -9,6 +9,7 @@ import { ResponseDto } from '../dto/ResponseDto';
 import { ShoppingCartHeader } from '../dto/ShoppingCartHeader';
 import { catchError, tap } from 'rxjs';
 import { StripeRequest } from '../dto/StripeRequest';
+import { SaveCartDetails } from '../dto/SaveCartDetails';
 
 @Injectable({
   providedIn: 'root'
@@ -68,8 +69,8 @@ export class OrderService {
       )
     }
 
-    public getAll(status?: string) {
-      return this.http.get(`${this.baseUrl}/api/order/GetAll?status=` + (status == null ? "all" : status)) .pipe(
+    public getAll(userId: string, status?: string) {
+      return this.http.get(`${this.baseUrl}/api/order/GetAll?status=` + (status == null ? "all" : status + "&userId=" + userId)) .pipe(
         tap((ResponseDto: ResponseDto | any) => {
           if (!ResponseDto.isSuccess) {
             throw new Error(ResponseDto.message);

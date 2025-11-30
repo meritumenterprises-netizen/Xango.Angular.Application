@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { catchError, Observable } from 'rxjs';
 import { UserRecord } from '../../dto/UserRecord';
 import { CurrencyPipe,DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-order-detail',
