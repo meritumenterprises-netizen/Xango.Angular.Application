@@ -8,6 +8,7 @@ import { ServiceSettings } from './ServiceSettings';
 import { ResponseDto } from '../dto/ResponseDto';
 import { ShoppingCartHeader } from '../dto/ShoppingCartHeader';
 import { catchError, tap } from 'rxjs';
+import { StripeRequest } from '../dto/StripeRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,19 @@ export class OrderService {
         })
       );
     }
+
+    public createStripeSession(stripeRequest: StripeRequest) {
+      return this.http.post<ResponseDto>(`${this.baseUrl}/api/order/CreateStripeSession`, stripeRequest).pipe (
+        tap((responseDto: ResponseDto) => {
+          if (!responseDto.isSuccess) {
+            throw new Error(responseDto.message);
+          }
+        }),
+        catchError(err => {
+          this.toastr.error(`Error creating Stripe session <br/><br/>` + err, "Error");
+          throw err;
   
-  
+        })
+      )
+    }
 }

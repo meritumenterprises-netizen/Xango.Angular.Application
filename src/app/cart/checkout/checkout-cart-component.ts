@@ -11,8 +11,6 @@ import { ShoppingCartHeader } from '../../dto/ShoppingCartHeader';
 import { ShoppingCartDetail } from '../../dto/ShoppingCartDetail';
 import { ShoppingCart } from '../../dto/ShoppingCart';
 import { ShoppingCartService } from '../../services/ShoppingCartService';
-import { OrderHeader } from '../../dto/OrderHeader';
-import { OrderDetail } from '../../dto/OrderDetail';
 
 import {
   FormsModule,
@@ -41,6 +39,7 @@ export class CheckoutCartComponent extends CanComponentDeactivatable {
   constructor(
     private fb: FormBuilder,
     private shoppingCartService: ShoppingCartService,
+    private router: Router,
     private toastr: ToastrService,
   ) {
     super();
@@ -82,7 +81,7 @@ export class CheckoutCartComponent extends CanComponentDeactivatable {
  }
 
   onSubmit() {
-    
+    this.router.navigate(['/cart/placeorder']);    
  }
 
  get name() {
