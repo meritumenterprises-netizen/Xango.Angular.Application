@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHandler } from '@angular/common/http';
+import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
 import { Product } from '../dto/Product';
 import { OrderHeader } from '../dto/OrderHeader';
 import { OrderDetail } from '../dto/OrderDetail';
@@ -67,5 +67,63 @@ export class OrderService {
         })
       )
     }
+
+    public getAll(status?: string) {
+      return this.http.get(`${this.baseUrl}/api/order/GetAll?status=` + (status == null ? "all" : status)) .pipe(
+        tap((ResponseDto: ResponseDto | any) => {
+          if (!ResponseDto.isSuccess) {
+            throw new Error(ResponseDto.message);
+          }
+        }),
+        catchError((err) => {
+          this.toastr.error(err,"Error");
+          throw err;
+        })
+      )
+    }
  
+    public get(orderId: number) {
+      return this.http.get(`${this.baseUrl}/api/order/GetOrder/` + orderId).pipe(
+        tap((ResponseDto: ResponseDto | any) => {
+          if (!ResponseDto.isSuccess) {
+            throw new Error(ResponseDto.message);
+          }
+        }),
+        catchError((err) => {
+          this.toastr.error(err, "Error");
+          throw err;
+        })
+      )
+    }
+
+    public updateOrderStatus(orderId: number, newStatus: string ) {
+      const url = `${this.baseUrl}/api/order/UpdateOrderStatus/${orderId}`;
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      const body = JSON.stringify(newStatus); // -> sends: "Completed"
+    
+      return this.http.post<ResponseDto>(url, body, { headers }).pipe(
+        tap((response: ResponseDto) => {
+          if (!response.isSuccess) {
+            throw new Error(response.message);
+          }
+        }),
+        catchError((err) => {
+          this.toastr.error(err, 'Error');
+          throw err;
+        })
+      );    }
+
+    public deleteOrder(orderId: number) {
+      return this.http.delete(`${this.baseUrl}/api/order/DeleteOrder/` + orderId).pipe(
+        tap((ResponseDto: ResponseDto | any) => {
+          if (!ResponseDto.isSuccess) {
+            throw new Error(ResponseDto.message);
+          }
+        }),
+        catchError((err) => {
+          this.toastr.error(err, "Error");
+          throw err;
+        })
+      )
+    }
 }

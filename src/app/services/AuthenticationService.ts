@@ -75,6 +75,11 @@ export class AuthService {
     return null;
   }
 
+  public isUserAdmin() : boolean {
+    let user : UserRecord | null = this.getUser();
+    return user!.role == "ADMIN";
+  }
+
   public isUserLoggedIn() : boolean {
     return this.getUser() !== null;
   }

@@ -10,7 +10,7 @@ import { RouterOutlet, Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HeaderComponent, ContainerComponent, FooterComponent, CommonModule, ToastrModule, LoaderComponent, RouterOutlet ],
+  imports: [HeaderComponent, ContainerComponent, FooterComponent, CommonModule, ToastrModule, LoaderComponent ],
   templateUrl: './app.component.html',
   styleUrl: "./app.component.css"
 })

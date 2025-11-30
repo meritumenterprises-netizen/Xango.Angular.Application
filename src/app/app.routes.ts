@@ -18,6 +18,7 @@ import { UnsavedChangesGuard } from './guards/UnsavedChangesGuard';
 import { CheckoutCartComponent } from './cart/checkout/checkout-cart-component';
 import { PlaceOrderComponent } from './cart/place-order-component/place-order-component';
 import { ConfirmationComponent } from './cart/confirmation-component/confirmation-component';
+import { OrderDetailsComponent } from './orders/order-detail/order-detail';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // default route
@@ -33,7 +34,8 @@ export const routes: Routes = [
   { path: 'product/details/:id', component: ProductDetailsComponent },
   { path: 'product/delete/:id', component: DeleteProductComponent },
   { path: 'product', component: ProductComponent },
-  { path: 'orders', component: OrdersComponent },
+  { path: 'order', component: OrdersComponent },
+  { path: 'order/details/:id', component: OrderDetailsComponent },
   { path: 'cart', component: ShoppingCartComponent },
   { path: 'cart/checkout', component: CheckoutCartComponent },
   { path: 'cart/confirmation/:id', component: ConfirmationComponent },
