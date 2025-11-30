@@ -53,4 +53,19 @@ export class OrderService {
         })
       )
     }
+
+    public validateStripeSession(orderId : number) {
+      return this.http.post(`${this.baseUrl}/api/order/ValidateStripeSession`, orderId) .pipe(
+        tap((ResponseDto: ResponseDto | any) => {
+          if (!ResponseDto.isSuccess) {
+            throw new Error(ResponseDto.message);
+          }
+        }),
+        catchError((err) => {
+          this.toastr.error(err,"Error");
+          throw err;
+        })
+      )
+    }
+ 
 }
