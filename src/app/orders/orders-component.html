@@ -45,7 +45,7 @@
 						<td>{{order.name}}</td>
 						<td>{{order.phone}}</td>
 						<td>{{order.status}}</td>
-						<td>{{order.orderTotal | currency: 'USD'}}</td>
+						<td style="text-align: right">{{order.orderTotal | currency: 'USD'}}</td>
 						<td style="text-align: center;">@if (user!.role === "ADMIN") { <i class="bi bi-pencil-square" style="cursor: pointer" (click)="onEditOrder(order.orderHeaderId)"></i> } </td>
 					</tr>
 				}
