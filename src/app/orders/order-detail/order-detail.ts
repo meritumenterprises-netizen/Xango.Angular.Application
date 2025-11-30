@@ -38,10 +38,16 @@ export class OrderDetailsComponent {
   reloadOrder() {
     this.order$ = this.orderService.get(this.orderId).subscribe({
       next: (responseDto : ResponseDto | any) => {
+        if (!responseDto.isSuccess) {
+          this.toastr.error("Order id " + this.orderId + " has not been found");
+          this.router.navigate(['/order']);
+        }
        this.order = responseDto.result;
       },
       error: (err: string | undefined) => {
        console.error('Error', err);
+       this.toastr.error("Order id " + this.orderId + " has not been found");
+       this.router.navigate(['/order']);
      }
    });
  
@@ -98,6 +104,7 @@ export class OrderDetailsComponent {
     this.order$.subscribe({
       next: (responseDto: ResponseDto | any) => {
         if (responseDto.isSuccess) {
+          this.toastr.success("Order ID " + this.orderId + " has been deleted");
           this.router.navigate(["/order"]);
           console.log("Deleted order " + this.orderId);
         }

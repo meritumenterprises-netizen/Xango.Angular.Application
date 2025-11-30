@@ -93,7 +93,7 @@
                                             <h5 class="text-white">TOTAL </h5>
                                         </div>
                                         <div class="col-6 text-end">
-                                            <h5 class="text-white">{{order.orderTotalWithCurrency}}</h5>
+                                            <h5 class="text-white">{{order.orderTotal | currency: 'USD'}}</h5>
                                         </div>
                                     </div>
                                 </li>
