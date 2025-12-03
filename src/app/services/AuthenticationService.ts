@@ -9,50 +9,60 @@ import { throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserRecord } from '../dto/UserRecord';
 import { UserResponse } from '../dto/UserResponse';
-
+import { RegistrationRequest } from '../dto/RegistrationRequest';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = ServiceSettings.AUTH_API; 
+  private apiUrl = ServiceSettings.AUTH_API;
   private tokenKey = 'auth_token';
   private userKey = 'user_value';
 
-  private userResponse : UserResponse | any = null;
+  private userResponse: UserResponse | any = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient, 
+    private toastr: ToastrService
+  ) {}
 
   login(userName: string, password: string): Observable<ResponseDto> {
-    const response = this.http.post<ResponseDto>(`${this.apiUrl}/api/auth/login`, { userName, password })
+    const response = this.http
+      .post<ResponseDto>(`${this.apiUrl}/api/auth/login`, { userName, password })
       .pipe(
-        tap(response => {
-            this.userResponse = response.result;
-            this.setToken(this.userResponse.token);
-            this.setUser(this.userResponse.user);
-            return response;
+        tap((response) => {
+          if (!response.isSuccess) {
+            throw new Error(response.message);
+          }
+          this.userResponse = response.result;
+          this.setToken(this.userResponse.token);
+          this.setUser(this.userResponse.user);
+          return response;
         }),
         catchError((error: HttpErrorResponse) => {
-             console.error('Login error:', error);
-
-        // you can rethrow the error so subscribers receive it
-            return throwError(() => error);
-        })
+          console.error('Login error:', error);
+          return throwError(() => error);
+        }),
       );
-      return response
+    return response;
   }
 
-  register(email: string, user: string, phone: string, password: string, role: string) : Observable<ResponseDto> {
-    return this.http.post<ResponseDto>(`${this.apiUrl}/api/auth/register`, { email, password })
+  register(registrationRequest: RegistrationRequest): Observable<ResponseDto> {
+    return this.http
+      .post<ResponseDto>(`${this.apiUrl}/api/auth/register`, registrationRequest)
       .pipe(
-       tap((responseDto) => {
-        if (!responseDto.isSuccess) {
-          throw new Error(responseDto.message);
-        }
-      })
-    );
+        tap((responseDto) => {
+          if (!responseDto.isSuccess) {
+            throw new Error(responseDto.message);
+          }
+        }),
+        catchError((error) => {
+          console.error('Registration error:', error);
+          return throwError(() => error);
+        }),
+      );
   }
-  
 
   logout(): void {
     this.clearToken();
@@ -63,24 +73,24 @@ export class AuthService {
     localStorage.setItem(this.tokenKey, token); // or sessionStorage
   }
 
-  setUser(user: UserRecord) : void {
-    localStorage.setItem(this.userKey, JSON.stringify(this.userResponse.user))
+  setUser(user: UserRecord): void {
+    localStorage.setItem(this.userKey, JSON.stringify(this.userResponse.user));
   }
 
-  public getUser() : UserRecord | null {
-    let userRecordString : string | any = localStorage.getItem(this.userKey);
+  public getUser(): UserRecord | null {
+    let userRecordString: string | any = localStorage.getItem(this.userKey);
     if (userRecordString !== null) {
       return JSON.parse(userRecordString);
     }
     return null;
   }
 
-  public isUserAdmin() : boolean {
-    let user : UserRecord | null = this.getUser();
-    return user!.role == "ADMIN";
+  public isUserAdmin(): boolean {
+    let user: UserRecord | null = this.getUser();
+    return user!.role == 'ADMIN';
   }
 
-  public isUserLoggedIn() : boolean {
+  public isUserLoggedIn(): boolean {
     return this.getUser() !== null;
   }
 
@@ -93,7 +103,7 @@ export class AuthService {
     localStorage.removeItem(this.userKey);
   }
 
-  public isAdmin() : boolean {
-    return this.getUser() !== null && this.getUser()?.role == "ADMIN";
+  public isAdmin(): boolean {
+    return this.getUser() !== null && this.getUser()?.role == 'ADMIN';
   }
 }

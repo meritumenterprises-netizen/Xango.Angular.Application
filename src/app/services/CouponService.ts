@@ -15,6 +15,7 @@ export class CouponService {
     constructor(public http: HttpClient, public toastr: ToastrService ) {
       toastr.toastrConfig.timeOut = 5000;
       toastr.toastrConfig.closeButton = true;
+      toastr.toastrConfig.enableHtml = true;
   }
 
   public getCoupons() : Coupon[] | any {
@@ -25,7 +26,7 @@ export class CouponService {
         }
       }),
       catchError(err => {
-        this.toastr.error("Error loading coupons", "Error");
+        this.toastr.error("Error loading coupons<br/><br/>" + err.message, "Error");
         throw new Error(err);
       })
     );
@@ -39,7 +40,7 @@ export class CouponService {
         }
       }),
       catchError(err => {
-        this.toastr.error("Error loading coupons", "Error");
+        this.toastr.error("Error loading coupons<br/><br/>" + err.message, "Error");
         throw new Error(err);
       })
     );

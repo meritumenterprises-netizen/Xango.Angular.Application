@@ -34,7 +34,7 @@ export class OrderService {
           }
         }),
         catchError(err => {
-        this.toastr.error(`Error creating order<br/><br/>` + err, "Error");
+        this.toastr.error(`Error creating order<br/><br/>` + err.message, "Error");
         throw err;
         })
       );
@@ -48,7 +48,7 @@ export class OrderService {
           }
         }),
         catchError(err => {
-          this.toastr.error(`Error creating Stripe session <br/><br/>` + err, "Error");
+          this.toastr.error(`Error creating Stripe session <br/><br/>` + err.message, "Error");
           throw err;
   
         })
@@ -63,7 +63,7 @@ export class OrderService {
           }
         }),
         catchError((err) => {
-          this.toastr.error(err,"Error");
+          this.toastr.error(err.message,"Error");
           throw err;
         })
       )
@@ -77,7 +77,7 @@ export class OrderService {
           }
         }),
         catchError((err) => {
-          this.toastr.error(err,"Error");
+          this.toastr.error(err.message,"Error");
           throw err;
         })
       )
@@ -91,7 +91,7 @@ export class OrderService {
           }
         }),
         catchError((err) => {
-          //this.toastr.error(err, "Error 1");
+          this.toastr.error(err.message, "Error 1");
           throw err;
         })
       )
@@ -100,7 +100,7 @@ export class OrderService {
     public updateOrderStatus(orderId: number, newStatus: string ) {
       const url = `${this.baseUrl}/api/order/UpdateOrderStatus/${orderId}`;
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-      const body = JSON.stringify(newStatus); // -> sends: "Completed"
+      const body = JSON.stringify(newStatus);
     
       return this.http.post<ResponseDto>(url, body, { headers }).pipe(
         tap((response: ResponseDto) => {
@@ -109,7 +109,7 @@ export class OrderService {
           }
         }),
         catchError((err) => {
-          this.toastr.error(err, 'Error');
+          this.toastr.error(err.message, 'Error');
           throw err;
         })
       );    }
@@ -122,7 +122,7 @@ export class OrderService {
           }
         }),
         catchError((err) => {
-          this.toastr.error(err, "Error");
+          this.toastr.error(err.message, "Error");
           throw err;
         })
       )

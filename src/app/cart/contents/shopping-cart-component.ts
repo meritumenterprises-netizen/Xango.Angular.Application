@@ -34,6 +34,7 @@ export class ShoppingCartComponent {
   public shoppingCart: ShoppingCart | any = null;
   private response: ResponseDto | any = null;
   public loading : boolean = false;
+  public shoppingCartIsEmpty : boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -48,6 +49,7 @@ export class ShoppingCartComponent {
   }
 
   reloadShoppingCart() {
+    this.shoppingCartIsEmpty = false;
     this.loading = true;
     this.shoppingCart$ = this.shoppingCartService.getShoppingCart();
     this.shoppingCart$.subscribe({
@@ -61,6 +63,9 @@ export class ShoppingCartComponent {
       complete: () => {
         console.log('Done');
         this.shoppingCart = this.response.result;
+        if (this.shoppingCart == null || this.shoppingCart.cartHeader == null) {
+          this.shoppingCartIsEmpty = true;
+        }
         this.loading = false;
         if (this.shoppingCart == null) {
           this.toastr.error(`No shopping cart for the currently logged on user has been found`);
@@ -109,7 +114,6 @@ export class ShoppingCartComponent {
       next: () => {
         console.log('Shopping cart has been emptied');
         this.router.navigate(['/']);
-        //this.reloadShoppingCart();
       }
     });
   }

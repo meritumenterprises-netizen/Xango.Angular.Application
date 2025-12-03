@@ -1,6 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule, FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { catchError, Observable } from 'rxjs';
+import { ResponseDto } from '../../dto/ResponseDto';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../services/AuthenticationService';
+import { Router } from '@angular/router';
+import { RegistrationRequest } from '../../dto/RegistrationRequest';
+import { notFirstOptionValidator } from '../../validators/validators';
 
 @Component({
   selector: 'app-register',
@@ -16,10 +23,16 @@ export class RegisterComponent {
   private readonly passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/;
 
   public registerForm: FormGroup;
+  private registration$: Observable<ResponseDto> | any = null;
+  
 
-    constructor(private fb: FormBuilder) {
+    constructor(
+      private fb: FormBuilder,
+      private toastr: ToastrService,
+      private authService: AuthService,
+      private router: Router
+    ) {
     this.registerForm = this.fb.group({
-      // ✔ safe now
       email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
       name: ['', [Validators.required, Validators.minLength(4)]],
       phone: ['', [Validators.required]],
@@ -27,7 +40,7 @@ export class RegisterComponent {
         '',
         [Validators.required, Validators.minLength(8), Validators.pattern(this.passwordPattern)],
       ],
-      role: ['', [Validators.required]]
+      role: ['', [Validators.required, notFirstOptionValidator("--Select role--")]]
     });
   }
 
@@ -42,6 +55,30 @@ export class RegisterComponent {
     console.log(this.registerForm.value.phone);
     console.log(this.registerForm.value.password);
     console.log(this.registerForm.value.role);
+
+    let registration : RegistrationRequest = {
+      email : this.registerForm.value.email,
+      name: this.registerForm.value.name,
+      phoneNumber: this.registerForm.value.phone,
+      password: this.registerForm.value.password,
+      role: this.registerForm.value.role
+    };
+
+    this.registration$ = this.authService.register(registration
+    );
+
+    this.registration$.subscribe({
+      catchError: (err: any) => {
+        console.error('Error', err);
+        this.toastr.error(`${err.message}`, 'Error');
+      },
+      complete: () => {
+        console.log('Done');
+        this.toastr.success("User registration successful!", "Success");
+        this.router.navigate(['/']);
+      },
+    });
+
   }
 
 get email() {

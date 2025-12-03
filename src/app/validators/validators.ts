@@ -14,3 +14,10 @@ export function lessThanValidator(smallerField: string, largerField: string): Va
     return smallerValue < largerValue ? null : { lessThan: true };
   };
 }
+
+export function notFirstOptionValidator(invalidValue: string) {
+  return (control: AbstractControl) => {
+    const isFirst = control.value === invalidValue;  // or whatever matches index 0 item
+    return isFirst ? { firstOptionNotAllowed: true } : null;
+  };
+}

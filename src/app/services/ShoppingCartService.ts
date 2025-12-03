@@ -48,7 +48,7 @@ export class ShoppingCartService {
         }
       }),
       catchError((err) => {
-        this.toastr.error(`Error loading shopping cart for user id ${user.id}}\r\n` + err, 'Error');
+        this.toastr.error(`Error loading shopping cart for user id ${user.id}}\r\n` + err.message, 'Error');
         throw err;
       }),
     );
@@ -70,7 +70,7 @@ export class ShoppingCartService {
         }),
         catchError((err) => {
           this.toastr.error(
-            `Error removing coupon from shopping cart for user id ${user.id}}\r\n` + err,
+            `Error removing coupon from shopping cart for user id ${user.id}}\r\n` + err.message,
             'Error',
           );
           throw err;
@@ -98,7 +98,7 @@ export class ShoppingCartService {
           }
         }),
         catchError((err) => {
-          this.toastr.error(err, 'Error');
+          this.toastr.error(err.message, 'Error');
           throw err;
         }),
       );
@@ -124,7 +124,7 @@ export class ShoppingCartService {
           }
         }),
         catchError((err) => {
-          this.toastr.error('Cannot add product to cart<br/><br/>' + err);
+          this.toastr.error('Cannot add product to cart<br/><br/>' + err.message);
           throw err;
         }),
       );

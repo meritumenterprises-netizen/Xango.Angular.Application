@@ -1,7 +1,7 @@
-@if (shoppingCart == null || shoppingCart.cartDetails == null) {
-    <div class="text-black-50">Your shopping cart is empty</div>
+@if (shoppingCartIsEmpty) {
+    <div class="text-black-50">Shopping cart is empty...</div>
 }
-@else {
+@else if (shoppingCart != null && shoppingCart.cartHeader != null) {
     <br />
     <div class="">
         <div class="card border mt-4 container">

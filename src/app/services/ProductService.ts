@@ -29,7 +29,7 @@ export class ProductService {
         }
       }),
       catchError(err => {
-        this.toastr.error("Error loading products<br/><br/>" + err, "Error");
+        this.toastr.error("Error loading products<br/><br/>" + err.message, "Error");
         throw err;
       })
     );
@@ -43,7 +43,7 @@ export class ProductService {
         }
       }),
       catchError(err => {
-      this.toastr.error(`Error loading product with product id ${productId}<br/><br/>` + err, "Error");
+      this.toastr.error(`Error loading product with product id ${productId}<br/><br/>` + err.message, "Error");
       throw err;
       })
     );
@@ -57,7 +57,7 @@ export class ProductService {
         }
       }),
       catchError(err => {
-      this.toastr.error(`Error creating product<br/><br/>` + err, "Error");
+      this.toastr.error(`Error creating product<br/><br/>` + err.message, "Error");
       throw err;
       })
     );
@@ -71,7 +71,7 @@ export class ProductService {
         }
       }),
       catchError(err => {
-      this.toastr.error(`Error updating product with product id ${product.productId}<br/><br/>` + err, "Error");
+      this.toastr.error(`Error updating product with product id ${product.productId}<br/><br/>` + err.message, "Error");
       throw err;
       })
     );
@@ -85,7 +85,7 @@ export class ProductService {
         }
       }),
       catchError(err => {
-        this.toastr.error("Error deleting product<br/><br/>" + err, "Error");
+        this.toastr.error("Error deleting product<br/><br/>" + err.message, "Error");
         throw err;
       })
     );

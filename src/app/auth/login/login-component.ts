@@ -61,7 +61,7 @@ export class LoginComponent {
     this.user$.subscribe({
       error: (err: any) => {
         console.error('Error', err);
-        this.toastr.error(`${err}`, 'Error');
+        this.toastr.error(`${err.message}`, 'Error');
       },
       complete: () => {
         console.log('Done');
