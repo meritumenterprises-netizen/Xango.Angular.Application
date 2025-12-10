@@ -5,7 +5,9 @@ export interface OrderDetail {
 	orderHeaderId: number;
 	productId: number;
 	product?: Product;
+	productName: string;
 	price: number;
+	count: number;
   }
   
   
