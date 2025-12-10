@@ -119,7 +119,8 @@ export class ProductEditComponent extends CanComponentDeactivatable {
           categoryName: this.product.categoryName,
           description: this.product.description,
           price: this.product.price,
-          stockInventory: this.product.stockInventory
+          stockInventory: this.product.stockInventory,
+          fileName: this.product.imageUrl
         });
         this.productForm.markAsPristine();
       },

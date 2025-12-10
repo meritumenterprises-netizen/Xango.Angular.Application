@@ -89,7 +89,7 @@
                         <label class="control-label col-3" style="font-size:20px;">Product Image (Optional)</label>
                         <input type="file" class="form-control col-9 flex-grow-1" #fileInput formControlName="fileInput" (change)="onFileSelected(fileInput.files)" accept="image/*" class="form-control" />
                         <input type="hidden" class="form-control" formControlName="base64Image"/>
-                        <input type="hidden" class="form-control" formControlName="fileName"/>
+                        <input type="hidden" class="form-control" formControlName="fileName" value="product?.imageUrl ?? ''"/>
                         <small *ngIf="fileError" class="text-danger">{{ fileError }}</small>
                       </div>
                       
@@ -110,7 +110,7 @@
                 </div>
             </div>
             <div class="col-2">
-                <img src="{{product.imageUrl}}" style="width: 30%" alt="" />
+                <img src="{{product?.imageUrl}}" style="width: 30%" alt="" />
             </div>
         </div>
     </div>
