@@ -11,7 +11,7 @@
                     <span class="text-bg-primary px-2">In Stock: {{product.stockInventory}}</span>
                     <span class="badge bg-warning text-white p-2">{{product.category}}</span>
                 </div>
-                <p class="card-text">{{product.description}}</p>
+                <p class="card-text" style="text-align: left;">{{product.description}}</p>
                 <div class="row">
                     <div class="col">
                         <a href="/product/details/{{product.productId}}" class="btn btn-success form-control" [class.disabled]="product.stockInventory === 0">Details</a>
