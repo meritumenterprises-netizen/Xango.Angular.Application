@@ -4,7 +4,7 @@
         {
         <div class="card col-12 col-md-6 col-lg-4 shadow-lg text-center" style="margin: 5px; width: 300px">
             <h3 class="card-title text-black-50 text-center py-2">{{product.name}}</h3>
-            <img src="{{product.imageUrl}}" class="card-img-top py-3">
+            <img src="{{product.imageUrl}}" class="card-img-top py-3" style="max-height: 400px; width: auto">
             <div class="card-body">
                 <div class="d-flex justify-content-between py-2">
                     <span class="text-danger" style="font-size:20px;">{{ product.price | currency : 'USD' }}</span>
