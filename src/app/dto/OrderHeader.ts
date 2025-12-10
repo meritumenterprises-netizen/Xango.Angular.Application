@@ -10,6 +10,7 @@ export interface OrderHeader {
 	name: string;
 	phone: string;
 	email: string;  
+	userEmail: string;
 	orderTime: Date;
 	status: string;
 	paymentIntentId?: string;
