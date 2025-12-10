@@ -40,12 +40,17 @@
                 </div>
             </div>
             <div class="card-footer row">
-                <div class="col-12 col-md-6 pb-1 ">
+                <div class="col-12 col-md-4 pb-1 ">
                     <a [routerLink]="['/']" class="btn btn-success btn-square form-control btn-lg" style="height:50px;">Back</a>
                 </div>
-                <div class="col-12 col-md-6 ">
+                <div class="col-12 col-md-4 ">
                     <button type="submit" class="btn btn-primary form-control btn-lg" style="height:50px;" [class.disabled]="!isLoggedIn() || product.stockInventory == 0" (click)="onSubmit(count.value, product.stockInventory)">Add to Cart</button>
                 </div>
+                @if (isAdmin()) {
+                    <div class="col-12 col-md-4 ">
+                        <button class="btn btn-danger form-control btn-lg" style="height:50px;" [routerLink]="['/product/edit/' + product.productId]">Edit</button>
+                    </div>
+                }
             </div>
         </div>
     </div>

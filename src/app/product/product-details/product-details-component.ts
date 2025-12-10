@@ -84,4 +84,8 @@ onSubmit(quantity : string, stockQuantity: string) {
   isLoggedIn() {
     return this.authService.isUserLoggedIn();
   }
+
+  isAdmin() : boolean {
+    return this.authService.isAdmin();
+  }
 }

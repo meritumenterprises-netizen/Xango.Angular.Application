@@ -5,7 +5,7 @@ export interface Product {
 	description : string;
 	categoryName : string;
 	base64Image? : string | null;
-	imageUrl : string | null;
+	imageUrl? : string | null;
 	imageLocalPath? : string | null;
 	count : number;
 	stockInventory : number;

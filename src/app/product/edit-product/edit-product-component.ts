@@ -1,4 +1,4 @@
-import { Component, HostListener, Injectable } from '@angular/core';
+import { Component, HostListener, Injectable, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../dto/Product';
 import { ProductService } from '../../services/ProductService';
@@ -32,6 +32,10 @@ export class ProductEditComponent extends CanComponentDeactivatable {
   product: Product | any = null;
   response: ResponseDto | any = null;
   productId!: number;
+  readonly maxFileSize = 5 * 1024 * 1024; // 5 MB
+  readonly allowedTypes = ['image/png', 'image/jpeg', 'image/webp'];
+  imagePreview: string | null = null;
+  fileError: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -81,6 +85,15 @@ export class ProductEditComponent extends CanComponentDeactivatable {
             Validators.pattern(/^\d+$/),
           ],
         ],
+        fileInput: [
+          null, []
+        ],
+        base64Image: [
+          null, []
+        ],
+        fileName: [
+          null, []
+        ]
       },
       {
         //validators: lessThanValidator('discountAmount', 'minAmount'),
@@ -111,9 +124,38 @@ export class ProductEditComponent extends CanComponentDeactivatable {
         this.productForm.markAsPristine();
       },
     });
-
   }
-
+  
+  onFileSelected(files: FileList | null): void {
+    if (!files || files.length === 0) return;
+  
+    const file: File = files[0];
+  
+    if (!this.allowedTypes.includes(file.type)) {
+      this.fileError = 'Only PNG, JPEG, or WEBP images are allowed.';
+      return;
+    }
+  
+    if (file.size > this.maxFileSize) {
+      this.fileError = 'File size must be smaller than 5 MB.';
+      return;
+    }
+  
+    this.fileError = null;
+  
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+      const base64String = (reader.result as string).split(',')[1];
+  
+      // update reactive form
+      this.productForm.patchValue({ base64Image: base64String });
+      this.productForm.patchValue({ fileName: file.name });
+    };
+    reader.readAsDataURL(file);
+  }
+     
+  
   get productName() {
     return this.productForm.get('productName');
   }
@@ -134,33 +176,19 @@ export class ProductEditComponent extends CanComponentDeactivatable {
     return this.productForm.get('stockInventory');
   }
 
-  //   canDeactivate(): Promise<boolean> | boolean {
-  //   // If form is not dirty — allow navigation
-  //   if (!this.productForm || !this.productForm.dirty) {
-  //     return true;
-  //   }
-  //   return Swal.fire({
-  //     title: 'You have unsaved changes',
-  //     text: 'Do you really want to leave without saving?',
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonText: 'Leave',
-  //     cancelButtonText: 'Stay',
-  //     customClass: {
-  //       popup: 'rounded-swal'
-  //     }
-  //   }).then(result => !!result.isConfirmed);
-  // }
+  get fileName() {
+    return this.productForm.get('fileName');
+  }
 
-  // @HostListener('window:beforeunload', ['$event'])
-  // beforeUnloadHandler(event: BeforeUnloadEvent) {
-  //   if (this.productForm && this.productForm.dirty) {
-  //     // Modern browsers ignore custom messages; set returnValue to trigger prompt.
-  //     event.preventDefault();
-  //     event.returnValue = '';
-  //   }
-  // }
+  get fileInput() {
+    return this.productForm.get('fileInput');
+  }
 
+  get base64Image() {
+    return this.productForm.get('base64Image');
+  }
+
+  
   onSubmit() {
     if (this.productForm.invalid) {
       this.productForm.markAllAsTouched();
@@ -171,6 +199,8 @@ export class ProductEditComponent extends CanComponentDeactivatable {
     console.log(this.productForm.value.description);
     console.log(this.productForm.value.price);
     console.log(this.productForm.value.stockInventory);
+    console.log(this.productForm.value.fileName);
+    console.log(this.productForm.value.base64Image);
     let updatedProduct: Product = {
       productId: this.productId,
       name: this.productName.value,
@@ -178,11 +208,14 @@ export class ProductEditComponent extends CanComponentDeactivatable {
       description: this.description.value,
       price: this.price.value,
       stockInventory: this.stockInventory.value,
-      base64Image: null,
       imageUrl: null,
-      imageLocalPath: null,
       count: 1
     };
+    if (this.fileName.value != null) {
+      updatedProduct.base64Image = this.base64Image.value ?? null;
+      updatedProduct.imageUrl = this.fileName.value ?? null;
+      updatedProduct.imageLocalPath = this.fileName.value ?? null;
+    }
     this.product$ = this.productService.updateProduct(updatedProduct);
     this.product$.subscribe({
       error: (err: any) => {
@@ -198,5 +231,3 @@ export class ProductEditComponent extends CanComponentDeactivatable {
 
   }
 }
-
-
