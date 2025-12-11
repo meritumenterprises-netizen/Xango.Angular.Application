@@ -3,5 +3,4 @@ export interface UserRecord {
     email: string;
     name : string;
     phoneNumber : string;
-    role: string;
 }

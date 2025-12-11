@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { Router,  RouterLinkActive,RouterModule, RouterOutlet } from '@angular/router';
-import { UserRecord } from '../../dto/UserRecord';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, NavigationEnd, RouterModule } from '@angular/router';
+import { filter, Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../services/AuthenticationService';
 
 @Component({
@@ -8,26 +8,51 @@ import { AuthService } from '../../services/AuthenticationService';
   standalone: true,
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
-    imports: [
-       RouterModule,
-    
-  ],
-
+  imports: [RouterModule]
 })
-export class HeaderComponent {
-  constructor (private authService: AuthService) {
+export class HeaderComponent implements OnInit, OnDestroy {
 
+  private _isAdmin = false;
+  private destroy$ = new Subject<void>();
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+
+    // Run once at load
+    this.checkAdmin();
+
+    // Run every time a navigation completes
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.checkAdmin();
+      });
   }
 
-  public getUserName() : string | any{
-    return this.authService.getUser()?.email;
+  private checkAdmin(): void {
+    this.authService.isAdmin().subscribe(result => {
+      this._isAdmin = result;
+    });
   }
 
-  public isUserLoggedIn() : boolean {
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  public getUserName(): string | null {
+    return this.authService.getUser()?.email ?? null;
+  }
+
+  public isUserLoggedIn(): boolean {
     return this.authService.isUserLoggedIn();
   }
 
-  public isAdmin() : boolean {
-    return this.authService.isAdmin();
+  public isAdmin(): boolean {
+    return this._isAdmin;
   }
 }

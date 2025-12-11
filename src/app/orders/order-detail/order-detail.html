@@ -11,7 +11,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body">
+            <div class="card-body" *ngIf="order">
                 <div class="container rounded p-2">
                     <div class="row">
                         <div class="col-12 col-lg-6 pb-4">
@@ -42,7 +42,7 @@
                                 </div>
                             </div>
 
-                            @if (user.role == "ADMIN")
+                            @if (isAdmin())
                             {
                                 <div class="row my-1 align-middle">
                                     <div class="col-3">Stripe Session ID</div>
@@ -99,7 +99,7 @@
 
                             </ul>
 
-                            @if (user.role == "ADMIN")
+                            @if (isAdmin())
                             {
                                 @if (order.status == "Approved")
                                 {

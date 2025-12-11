@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../services/AuthenticationService';
 import { OrderService } from '../services/OrderService';
 import { CommonModule, NgClass } from '@angular/common';
 import { UserRecord } from '../dto/UserRecord';
-import { Observable } from 'rxjs';
+import { filter, Observable, Subject, takeUntil } from 'rxjs';
 import { ResponseDto } from '../dto/ResponseDto';
 import { OrderHeader } from '../dto/OrderHeader';
 import { SplitCamelCasePipe } from '../pipes/split-camel-case.pipe';
@@ -17,11 +17,14 @@ import { SplitCamelCasePipe } from '../pipes/split-camel-case.pipe';
   templateUrl: './orders-component.html',
   styleUrl: './orders-component.css'
 })
-export class OrdersComponent {
+export class OrdersComponent implements OnInit, OnDestroy {
   public status : string = "all";
   public user : UserRecord | null;
   private orders$ : Observable<ResponseDto> | null = null;
   public orders : OrderHeader[] | null = null;
+  private _isAdmin = false;
+  private destroy$ = new Subject<void>();
+
   constructor(
     private authService: AuthService,
     private orderService: OrderService,
@@ -92,4 +95,35 @@ export class OrdersComponent {
     console.log("Editing order");
     this.router.navigate(['/order/details/' + orderId]);
   }
+
+  ngOnInit(): void {
+    // Run once at load
+    this.checkAdmin();
+
+    // Run every time a navigation completes
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        takeUntil(this.destroy$),
+      )
+      .subscribe(() => {
+        this.checkAdmin();
+      });
+  }
+
+  private checkAdmin(): void {
+    this.authService.isAdmin().subscribe((result) => {
+      this._isAdmin = result;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  isAdmin() : boolean {
+    return this._isAdmin;
+  }
+
 }

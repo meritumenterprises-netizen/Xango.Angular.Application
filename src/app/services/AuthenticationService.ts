@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { ServiceSettings } from './ServiceSettings';
 import { ResponseDto } from '../dto/ResponseDto';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserRecord } from '../dto/UserRecord';
@@ -86,8 +86,12 @@ export class AuthService {
   }
 
   public isUserAdmin(): boolean {
-    let user: UserRecord | null = this.getUser();
-    return user!.role == 'ADMIN';
+    this.isAdmin().subscribe((result: boolean) => {
+      return result;
+    });
+    return false;
+    // let user: UserRecord | null = this.getUser();
+    // return user!.role == 'ADMIN';
   }
 
   public isUserLoggedIn(): boolean {
@@ -103,7 +107,18 @@ export class AuthService {
     localStorage.removeItem(this.userKey);
   }
 
-  public isAdmin(): boolean {
-    return this.getUser() !== null && this.getUser()?.role == 'ADMIN';
+  // public isAdmin(): boolean {
+  //   return this.getUser() !== null && this.getUser()?.role == 'ADMIN';
+  // }
+
+  public isAdmin() : Observable<boolean> {
+    const user = this.getUser();
+    return this.http.get<ResponseDto>(`${this.apiUrl}/api/auth/InRole/${user?.email}/ADMIN`).pipe(
+      map(r => ((r as ResponseDto).result as unknown as boolean),
+      catchError(err => {
+        this.toastr.error("Error loading user or user role<br/><br/>" + err.message, "Error");
+        return of(false);
+      }))
+    );  
   }
 }

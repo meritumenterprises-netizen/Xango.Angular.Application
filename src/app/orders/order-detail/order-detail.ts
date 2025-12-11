@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../services/AuthenticationService';
 import { OrderService } from '../../services/OrderService';
 import { ResponseDto } from '../../dto/ResponseDto';
 import { ToastrService } from 'ngx-toastr';
 import { OrderHeader } from '../../dto/OrderHeader';
 import { OrderDetail } from '../../dto/OrderDetail';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { catchError, Observable } from 'rxjs';
+import { catchError, filter, Observable, Subject, takeUntil } from 'rxjs';
 import { UserRecord } from '../../dto/UserRecord';
 import { CurrencyPipe,DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -21,11 +21,14 @@ import { SplitCamelCasePipe } from '../../pipes/split-camel-case.pipe';
   imports: [CommonModule, RouterModule, SplitCamelCasePipe],
   providers: [ AuthService, OrderService ]
 })
-export class OrderDetailsComponent {
+export class OrderDetailsComponent implements OnInit, OnDestroy{
   private orderId : number = 0;
   public order: OrderHeader | any;
   private order$: Observable<ResponseDto> | any = null;
   public user: UserRecord | any;
+  private _isAdmin = false;
+  private destroy$ = new Subject<void>();
+
   constructor(
     private authService : AuthService,
     private orderService: OrderService,
@@ -117,4 +120,35 @@ export class OrderDetailsComponent {
         }
     });
   }
+
+  ngOnInit(): void {
+    // Run once at load
+    this.checkAdmin();
+
+    // Run every time a navigation completes
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        takeUntil(this.destroy$),
+      )
+      .subscribe(() => {
+        this.checkAdmin();
+      });
+  }
+
+  private checkAdmin(): void {
+    this.authService.isAdmin().subscribe((result) => {
+      this._isAdmin = result;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  isAdmin() : boolean {
+    return this._isAdmin;
+  }
+
 }
