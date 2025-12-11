@@ -60,7 +60,7 @@
                             <div class="row my-1 align-middle">
                                 <div class="col-3">Order Status</div>
                                 <div class="col-9">
-                                    <input readonly class="form-control" value="{{order?.status}}"/>
+                                    <input readonly class="form-control" value="{{order?.status | splitCamelCase }}"/>
                                 </div>
                             </div>
 
@@ -69,7 +69,7 @@
                             <h4 class="d-flex justify-content-between align-items-center mb-3">
                                 <span class="text-warning">Order Summary</span>
                             </h4>
-                            <label class="bg-info text-dark text-center form-control my-2">Order Status - {{order?.status}}</label>
+                            <label class="bg-info text-dark text-center form-control my-2">Order Status - {{order?.status | splitCamelCase}}</label>
 
                             <ul class="list-group mb-3">
 								@for (orderDetail of order.orderDetails; track orderDetail.orderDetailsId) {

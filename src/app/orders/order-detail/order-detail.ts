@@ -11,12 +11,14 @@ import { catchError, Observable } from 'rxjs';
 import { UserRecord } from '../../dto/UserRecord';
 import { CurrencyPipe,DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { Pipe } from '@angular/core';
+import { SplitCamelCasePipe } from '../../pipes/split-camel-case.pipe';
 
 @Component({
   selector: 'app-order-detail',
   templateUrl: './order-detail.html',
   styleUrl: './order-detail.css',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, SplitCamelCasePipe],
   providers: [ AuthService, OrderService ]
 })
 export class OrderDetailsComponent {

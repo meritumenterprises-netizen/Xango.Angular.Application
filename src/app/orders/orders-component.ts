@@ -9,10 +9,11 @@ import { UserRecord } from '../dto/UserRecord';
 import { Observable } from 'rxjs';
 import { ResponseDto } from '../dto/ResponseDto';
 import { OrderHeader } from '../dto/OrderHeader';
+import { SplitCamelCasePipe } from '../pipes/split-camel-case.pipe';
 
 @Component({
   selector: 'app-orders-component',
-  imports: [CommonModule],
+  imports: [CommonModule, SplitCamelCasePipe],
   templateUrl: './orders-component.html',
   styleUrl: './orders-component.css'
 })

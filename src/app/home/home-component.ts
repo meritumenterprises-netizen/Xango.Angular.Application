@@ -5,11 +5,13 @@ import { Observable } from 'rxjs';
 import { CurrencyPipe } from '@angular/common';
 import { ResponseDto } from '../dto/ResponseDto';
 import { ToastrService } from 'ngx-toastr';
+import { Pipe } from '@angular/core';
+import { TruncatePipe } from '../pipes/truncate.pipe';
 
 @Component({
   standalone: true,
   selector: 'app-home-component',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, TruncatePipe],
   templateUrl: './home-component.html',
   styleUrl: './home-component.css',
   providers: [ProductService]
