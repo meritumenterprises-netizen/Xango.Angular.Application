@@ -103,18 +103,18 @@
                             {
                                 @if (order.status == "Approved")
                                 {
-                                    <button asp-action="OrderReadyForPickup" class="btn btn-success form-control my-1" (click)="onSubmit_ReadyForPickup()">Set Ready for Pickup</button>
+                                    <button class="btn btn-success form-control my-1" (click)="onSubmit_ReadyForPickup()">Set Ready for Pickup</button>
                                 }
                                 @if (order.status == "ReadyForPickup")
                                 {
-                                    <button asp-action="CompleteOrder" type="submit" class="btn btn-success form-control my-1" (click)="onSubmit_Complete()">Set Complete Order</button>
+                                    <button class="btn btn-success form-control my-1" (click)="onSubmit_Complete()">Set Complete Order</button>
                                 }
 
                                 @if (order.status == "Approved" || order.status == "ReadyForPickup" || order.status == "Pending")
                                 {
-                                    <button asp-action="CancelOrder" type="submit" class="btn btn-danger form-control my-1" (click)="onSubmit_CancelOrder()">Cancel Order</button>
+                                    <button class="btn btn-danger form-control my-1" (click)="onSubmit_CancelOrder()">Cancel Order</button>
                                 }
-                                <button asp-action="DeleteOrder" type="submit" class="btn btn-secondary form-control my-1" (click)="onSubmit_DeleteOrder()">Delete Order</button>
+                                <button class="btn btn-secondary form-control my-1" (click)="onSubmit_DeleteOrder()">Delete Order</button>
                             }
                         </div>
                     </div>

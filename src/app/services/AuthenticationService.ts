@@ -113,6 +113,9 @@ export class AuthService {
 
   public isAdmin() : Observable<boolean> {
     const user = this.getUser();
+    if (user == undefined) {
+      return new Observable<boolean>().pipe(tap(() => false));
+    }
     return this.http.get<ResponseDto>(`${this.apiUrl}/api/auth/InRole/${user?.email}/ADMIN`).pipe(
       map(r => ((r as ResponseDto).result as unknown as boolean),
       catchError(err => {
