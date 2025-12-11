@@ -90,8 +90,6 @@ export class AuthService {
       return result;
     });
     return false;
-    // let user: UserRecord | null = this.getUser();
-    // return user!.role == 'ADMIN';
   }
 
   public isUserLoggedIn(): boolean {
@@ -106,10 +104,6 @@ export class AuthService {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userKey);
   }
-
-  // public isAdmin(): boolean {
-  //   return this.getUser() !== null && this.getUser()?.role == 'ADMIN';
-  // }
 
   public isAdmin() : Observable<boolean> {
     const user = this.getUser();

@@ -3,14 +3,15 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Angular: Chrome",
+      "name": "Angular: Edge",
       "type": "msedge",
       "request": "launch",
       "url": "http://localhost:4200/",
       "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "npm: start",
+      "timeout": 30000,
       "trace": true,
-      "preLaunchTask": "npm: start"
-      // "runtimeExecutable": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      "runtimeExecutable": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
     }
   ]
 }
