@@ -75,7 +75,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy{
   }
 
   onSubmit_Complete() {
-    this.order$ = this.orderService.updateOrderStatus(this.orderId, "Complete");
+    this.order$ = this.orderService.updateOrderStatus(this.orderId, "Completed");
     this.order$.subscribe({
       next: (responseDto: ResponseDto | any) => {
         if (responseDto.isSuccess) {

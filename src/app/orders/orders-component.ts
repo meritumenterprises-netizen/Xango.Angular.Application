@@ -80,7 +80,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
   onClickCompleted() {
     console.log("Clicked Complete");
     this.router.navigate(['/order/complete']);
-    this.status = "complete";
+    this.status = "completed";
     this.reloadOrders();
   }
 
