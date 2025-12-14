@@ -84,6 +84,13 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.reloadOrders();
   }
 
+  onClickShipped() {
+    console.log("Clicked Shipped");
+    this.router.navigate(['/order/shipped']);
+    this.status = "shipped";
+    this.reloadOrders();
+  }
+
   onClickAll() {
     console.log("Clicked All");
     this.router.navigate(['/order/all']);
