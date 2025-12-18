@@ -12,6 +12,7 @@ export interface OrderHeader {
 	email: string;  
 	userEmail: string;
 	orderTime: Date;
+	modifiedTime: Date;
 	status: string;
 	paymentIntentId?: string;
 	stripeSessionId?: string;
